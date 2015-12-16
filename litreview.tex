@@ -4,11 +4,12 @@
 \usepackage[utf8]{inputenc}
 \usepackage[noadjust]{cite}
 \usepackage{authblk}
-\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
 \usepackage{fancyhdr}
 \usepackage{listings}
 \usepackage{csquotes}
 \usepackage{color}
+\usepackage{setspace}
 
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{lightgray}{rgb}{0.9,0.9,0.9}
@@ -17,233 +18,73 @@
 \definecolor{editorGreen}{rgb}{0, 0.5, 0} % #007C00 -> rgb(0, 124, 0)
 \definecolor{editorBrown}{rgb}{.75, 0.375, 0} % #FF7F00 -> rgb(239, 169, 0)
 
-\lstdefinelanguage{JavaScript}{
-	morekeywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
-	morecomment=[s]{/*}{*/},
-	morecomment=[l]//,
-	morestring=[b]",
-	morestring=[b]'
-}
-
-\lstdefinelanguage{HTML5}{
-	language=html,
-	sensitive=true, 
-	alsoletter={<>=-},
-	otherkeywords={
-		% HTML tags
-		<html>, <head>, <title>, </title>, <meta, />, </head>, <body>,
-		<canvas, \/canvas>, <script>, </script>, </body>, </html>, <!, html>, <style>, </style>, ><
-	},  
-	ndkeywords={
-		% General
-		=,
-		% HTML attributes
-		charset=, id=, width=, height=,
-		% CSS properties
-		border:, transform:, -moz-transform:, transition-duration:, transition-property:, transition-timing-function:
-	},  
-	morecomment=[s]{<!--}{-->},
-	tag=[s]
-}
-
-\lstset{%
-	% Basic design
-	backgroundcolor=\color{editorGray},
-	basicstyle={\small\ttfamily},   
-	frame=l,
-	% Line numbers
-	xleftmargin={0.75cm},
-	numbers=left,
-	stepnumber=1,
-	firstnumber=1,
-	numberfirstline=true,
-	% Code design   
-	keywordstyle=\color{blue}\bfseries,
-	commentstyle=\color{editorGreen}\ttfamily,
-	ndkeywordstyle=\color{editorBrown}\bfseries,
-	stringstyle=\color{editorMauve},
-	% Code
-	language=HTML5,
-	alsolanguage=JavaScript,
-	alsodigit={.:;},
-	tabsize=2,
-	showtabs=false,
-	showspaces=false,
-	showstringspaces=false,
-	extendedchars=true,
-	breaklines=true,        
-	% Support for German umlauts
-	literate=%
-	{Ö}{{\"O}}1
-	{Ä}{{\"A}}1
-	{Ü}{{\"U}}1
-	{ß}{{\ss}}1
-	{ü}{{\"u}}1
-	{ä}{{\"a}}1
-	{ö}{{\"o}}1
-}
 
 %
 \pagestyle{fancy}
-%
-\renewenvironment{abstract}{%
-	\hfill\begin{minipage}{0.95\textwidth}
-		\rule{\textwidth}{1pt}}
-	{\par\noindent\rule{\textwidth}{1pt}\end{minipage}}
-%
-\makeatletter
-\renewcommand\@maketitle{%
-	\hfill
-	\begin{minipage}{0.95\textwidth}
-		\vskip 2em
-		\let\footnote\thanks 
-		{\LARGE \@title \par }
-		\vskip 1.5em
-		{\large \@author \par}
-	\end{minipage}
-	\vskip 1em \par
-}
-\makeatother
-
+\fancyhf{}
+\fancyhead[R]{\thepage}
+%\lhead{OBJECT RECOGNITION IN 2D IMAGES USING SVD}
+\fancyhead[L]{\fontsize{7}{12} \selectfont OBJECT RECOGNITION IN 2D IMAGES USING SVD}
 
 %
 \begin{document}
 	%
 	%title and author details
-	\title{Title, i.e. "CS 252 Project Report: Faceted Values in Haskell", make sure it fits on one line}
-	\author[1]{Andrew Kalenda\thanks{andrew.kalenda@gmail.com}}
-	\affil[1]{Department of Computer Science, San Jos\'{e} State University}
-	%
+	
+	\title{
+	    {OBJECT RECOGNITION IN 2D IMAGES USING SVD}\\~\\~\\
+	    {\large A Literature Review}\\
+	    {\large Presented to}\\
+	    {\large Sharmin Khan}\\
+	    {\large Department of Computer Science}\\
+	    {\large San Jose State University}\\~\\~\\
+	    {\large In Partial Fulfillment}\\
+	    {\large of the Requirements for the Class}\\
+	    {\large CS 200W}\\~\\~\\
+    }
+    
+    \author{By\\Tapomay Dey}
+    \date{December 2015}
 	\maketitle
-	%
-	\begin{abstract}
-	The abstract goes here. This is a template that I put together as a starting point for writing any sort of Computer Science research paper. A lot of the notes I have in various sections have been taken without attribution (sorry!) from various corners of the Internet. Suggestions on how to beautify papers are appreciated!
 	
-	\end{abstract}
+	\thispagestyle{empty}
 	
-	\section{Introduction}
+	\newpage
+	\doublespacing
+	\noindent
+	\large ABSTRACT\\
+	It is imperative for a modern robot to identify objects in its field of view in order to comprehend its surroundings and deduce an appropriate plan of action. In this paper, we review the state of the art in using Singular Value Decomposition (SVD) for machine vision. We justify this approach by analogizing the mathematical model of SVD with how humans comprehend visual information. We briefly review the different methods and algorithms used for implementing SVD. We also review solutions to the problem of achieving performance while maintaining accuracy when applying SVD to object recognition in 2D images. Basic object identification is insufficient for comprehending one’s surroundings. Texture and spatial information about objects play a crucial role in supplementing a decision support system. We explore the possibility of using mathematical morphology to augment basic object identification by computing features related to shape and texture of an object.
+    
+    \thispagestyle{empty}
+	\newpage
 	
-	Regarding the abstract, it should be a summary of the paper, considering the following:
-	 
-	 \textbf{Motivation}:
-	 Why do we care about the problem and the results? If the problem isn't obviously "interesting" it might be better to put motivation first; but if your work is incremental progress on a problem that is widely recognized as important, then it is probably better to put the problem statement first to indicate which piece of the larger problem you are breaking off to work on. This section should include the importance of your work, the difficulty of the area, and the impact it might have if successful.
-	 
-	 \textbf{Problem statement}:
-	 What problem are you trying to solve? What is the scope of your work (a generalized approach, or for a specific situation)? Be careful not to use too much jargon. In some cases it is appropriate to put the problem statement before the motivation, but usually this only works if most readers already understand why the problem is important.
-	 
-	 \textbf{Approach}:
-	 How did you go about solving or making progress on the problem? Did you use simulation, analytic models, prototype construction, or analysis of field data for an actual product? What was the extent of your work (did you look at one application program or a hundred programs in twenty different programming languages?) What important variables did you control, ignore, or measure?
-	 
-	 \textbf{Results}:
-	 What's the answer? Specifically, most good computer architecture papers conclude that something is so many percent faster, cheaper, smaller, or otherwise better than something else. Put the result there, in numbers. Avoid vague, hand-waving results such as "very", "small", or "significant." If you must be vague, you are only given license to do so when you can talk about orders-of-magnitude improvement. There is a tension here in that you should not provide numbers that can be easily misinterpreted, but on the other hand you don't have room for all the caveats.
-	 
-	 \textbf{Conclusions}:
-	 What are the implications of your answer? Is it going to change the world (unlikely), be a significant "win", be a nice hack, or simply serve as a road sign indicating that this path is a waste of time (all of the previous results are useful). Are your results general, potentially generalizable, or specific to a particular case?
+	\tableofcontents
+	\thispagestyle{empty}
+	\newpage
 	
-	\begin{itemize}
-		\item Abstracts are important when others are scanning through large databases of scholarly works. Make it as succinct and useful as possible, a single easily readable paragraph.
-		\item Meet the word count limitation. If your abstract runs too long, either it will be rejected or someone will take a chainsaw to it to get it down to size. Your purposes will be better served by doing the difficult task of cutting yourself, rather than leaving it to someone else who might be more interested in meeting size restrictions than in representing your efforts in the best possible manner. An abstract word limit of 150 to 200 words is common.
-		\item Any major restrictions or limitations on the results should be stated, if only by using "weasel-words" such as "might", "could", "may", and "seem".
-		\item Think of a half-dozen search phrases and keywords that people looking for your work might use. Be sure that those exact phrases appear in your abstract, so that they will turn up at the top of a search result listing.
-		\item Usually the context of a paper is set by the publication it appears in (for example, IEEE Computer magazine's articles are generally about computer technology). But, if your paper appears in a somewhat un-traditional venue, be sure to include in the problem statement the domain or topic area that it is really applicable to.
-		\item Some publications request "keywords". These have two purposes. They are used to facilitate keyword index searches, which are greatly reduced in importance now that on-line abstract text searching is commonly used. However, they are also used to assign papers to review committees or editors, which can be extremely important to your fate. So make sure that the keywords you pick make assigning your paper to a review category obvious (for example, if there is a list of conference topics, use your chosen topic area as one of the keyword tuples).
-	\end{itemize}
+	\clearpage
+    \pagenumbering{arabic}
+    \doublespacing
+	\section{\large INTRODUCTION}
+    \indent \par Computers play a vital role in our everyday life. They have become integral to the smooth functioning of the society. We, as humans, rely on computers to perform simple repetitive tasks that are tedious and monotonous for an average human mind. Human computer interaction (HCI) and Artificial Intelligence (AI) are two fields of computer science that have become major contributors to this aspect of our society. Computer vision is a branch of Artificial Intelligence that deals with identification and description of objects captured in a digital image. With the advances in robotics, it has become imperative to develop a solution to the problem of computer vision that can perform the task of image recognition with high accuracy and high performance. This leads to the following question: Can a system identify objects in 2D images in real time with high accuracy? Computer vision plays a valuable role in robotics. It is a crucial part of any interpretation of the vision to create a humanoid that can assist and befriend a human companion while performing common tasks without failing the Turing test. \par
+    Computer scientists and mathematicians have developed many approaches to solve the problem of computer vision. It has not been until recent years that they have been successful in achieving the desired performance of such algorithms. This paper reviews the state of the art in application of singular value decomposition (SVD) and the field of mathematical morphology to the problem of object detection in 2D images in computer vision. It begins with a standard definition of SVD and discusses why it is famous. It then justifies the applicability of SVD to image recognition by combining it with the concept of Jeff Hawkins and and Sandra Blakeslee’s human memory model presented in [5]. The result of the parallelization of SVD and using a multi-tensor model[1, 10] is a milestone in the effort to achieve high accuracy while maintaining acceptable performance for real time systems.
 	
-	The introduction is much like the abstract, but does not include findings or conclusions. It does include more details on the context of the problem, questions that are to be answered by the paper, and a working hypothesis where appropriate. Even if this isn't a lab report, you can still often make a more complete and organized paper by constructing it like one!
-	
-	\section{Section name}
-	\textit{Italics.} \textbf{Boldface}. Normal text. Normal text with citation\cite{HarryPotter}. Code listing:
-	
-	\lstset{language=JavaScript}
-	\begin{lstlisting}
-	// Heyo, comments
-	var b = user.getBalance()
-	var isRich = b > 999999
-	if (isRich)
-	  out = 'Youre a millionaire!'
-	else
-	  out = 'Youre not a millionaire!'
-	save(out)
-	print(out)
-	\end{lstlisting}
-	
-	\begin{lstlisting}
-		<!DOCTYPE html>
-		<html>
-		  <head>
-		    <title>Canvas</title>
-		    <meta charset="UTF-8" />
-		    <style>
-		      #square {
-		        border: 1px solid black;
-		                transform: scale(10) rotate(3deg) translateX(0px);
-		                -moz-transform: scale(10) rotate(3deg) translateX(0px);
-		      }
-		
-		            .box {              
-		                transition-duration: 2s;
-		                transition-property: transform;
-		                transition-timing-function: linear;
-		      }
-		    </style>
-		  </head>
-		  <body>
-		    <canvas id="square" width="200" height="200"></canvas>
-		    <script>
-		            var canvas = document.createElement('canvas');
-		            canvas.width = 200;
-		            canvas.height = 200;
-		
-		            var image = new Image();
-		            image.src = 'images/card.png';
-		            image.width = 114;
-		            image.height = 158;
-		            image.onload = window.setInterval(function() {
-		                rotation();
-		            }, 1000/60);
-		   </script>
-		  </body>
-		</html>
-	\end{lstlisting}
-	
-	Numbered list, it looks kinda ugly to me though:
-	
-	\begin{enumerate}
-		\item bleagh
-		\item blargh
-		\item blooph
-	\end{enumerate}
-	
-	Text before block quote:
-	
-	\blockcquote{HarryPotter}{“The Dark Arts [...] are many, varied, ever-changing, and eternal. Fighting them is like fighting a many-headed monster, which, each time a neck is severed, sprouts a head even fiercer and cleverer than before. You are fighting that which is unfixed, mutating, indestructible. [...] Your defenses [...] must therefore be as flexible and inventive as the arts you seek to undo."}
-	
-	Text after block quote. Some inline $ math^{a}_{b}=\sqrt{\frac{c}{d}} $. Some block math:
-	
-	$$ math^{a}_{b}=\sqrt{\frac{c}{d}} $$
+	\section{\large SINGULAR VALUE DECOMPOSITION}
+	\indent \par Singular value decomposition (SVD) is widely used as a machine learning technique to simplify problems that require complex computations and involve very high number of dimensions (typically in thousands). Humans can easily visualize three dimensions comfortably. However, it is hard to visualize and thus create methods to process higher dimensional entities. SVD is applicable to many problems in signal processing and statistics. Its ingenuity comes from its ability to reduce high dimensional models into a problem space that can be solved using linear equations. Linear algebra is a very mature field and mathematicians are very comfortable with solving linear equations. Most of the research in SVD can be classified into three categories: computational methods to implement SVD, mathematical methods involving SVD and applications of SVD. \par
+    A 2D image is typically represented using a 2D matrix of pixel information. SVD can decompose the pixel matrix into transformed matrices that are representative of geometric properties of the image and its luminance [8]. Singular values correspond to basis images that pack the highest amount of information entropy [8]. Basis images can be superimposed to reconstruct the input image. Thus, SVD extracts the linearly independent properties of an image that represent the information carried in the image to a maximum possible extent. Such a decomposed representation of an image is an ideal candidate for training a machine learning classifier. A pattern recognition system can be trained to map a combination of basis images to objects with a certain probability. The accuracy of such a classifier should increase as it decomposes more images and classifies objects in them.
+    
+	\section{\large THE MEMORY MODEL}
+    \indent \par SVD has many useful applications in the field of image processing due to its ability to decompose multi dimensional data into linearly independent components [8]. This has close analogy with the concept of neocortical layers in human brain as discussed in the memory model presented in [5]. According to Hawkins and Blakeslee [5], human perception and intelligence are highly dependent on storage of patterns and self-associative recall of those patterns. However, these patterns are not direct representations of sensory perceptions but a more abstract form derived at higher levels of neocortex. This has close analogy to principle components or singular values of multi dimensional representation of an image. Thus, storing and recalling singular values and formulating image filters as linear algebraic operations on such singular values is an efficient tool for performing object identification.
 
-	And so on.
+	\section{\large TYPES OF SVD}
+	\indent \par Although SVD is an old and mature mathematical tool, its use as a viable tool for performing classification of multidimensional data like images was not explored until recently [7]. Different algorithms for performing SVD [7] present different characteristic advantages. Scientists have morphed the algorithm in multiple ways [Fig. 1] ranging from divide and conquer-based approach to partial SVDs in order to address the issue of accuracy. Divide and conquer presents the most accurate results as per [7]. However, all approaches face the same bottleneck as any other algorithm while performing computations on large multidimensional data sets. SVD involves complex vector operations that are slow on average computers. Thus, parallel computation is the key to improving performance of SVD.
 	
-	\section{Results}
-	If this is a report on something experimental, sort hard data into this section
+	\section{\large HIGHER-ORDERED SVD}
+	\indent \par Higher-order SVD (HOSVD) using tensor-based representation has been successful in producing highly accurate and high performance systems [1]. Tensors have been widely popular in representing data in higher dimensions. However, processing a tensor-based data model demands high memory and computation resources. The “ensemble of classifiers” [1,10] approach combined with SVD has shown promising results in implementing a viable system with high accuracy and performance benchmarks. This approach explores parallel processing paradigms in its implementation of SVD. It achieves parallelism by applying data decomposition and functional decomposition. Earlier research did not explore the implementation of parallel algorithms [7]. \par
+    Tensors are implemented as multidimensional arrays in computational systems. HOSVD serves as an effective tool in decomposing tensors and supporting parallel processing paradigms. In such a decomposed domain, the task of pattern recognition can be implemented as a simple operation of measuring distance of principal components from test components. These test components can be prepared by performing HOSVD on supervised data. The operations discussed here are accurately modelled as mathematical operations in [1]. This approach achieves data decomposition successfully. Functional decomposition is achieved by defining a parallel implementation of the HOSVD algorithm itself [1].
 
-	\section{Conclusion}
-	Restate the introduction, but this time addressed to someone who has the knowledge your paper offers:
-	\begin{itemize}
-		\item What you did
-		\item What you discovered
-		\item If you operated from a hypothesis, was it supported?
-		\item Link hard data results to hypothesis
-		\item What was learned?
-		\item Answer any questions explicitly raised in the introduction
-		\item Were objectives achieved?
-		\item Errors and problems encountered?
-		\item Any remaining uncertainties?
-		\item Propose avenues for future exploration, experimentation
-		\item Propose additional questions
-		\item Relate your research to others'
-		\item Final statement
-	\end{itemize}
+    \section{\large CONCLUSION}
+	\indent \par Singular Value Decomposition is a promising model for representing higher dimensional data due to its close analogy to how humans store and recall intelligent information. Its ability to reduce data to a form that can be processed using linear operations is crucial to implementing viable systems. Recent advances in developing parallel algorithms for implementing SVD has greatly complemented its ability to be useful in real world applications. However, most image processing tools including SVD fail to address the aspects of object identification like spatial information and object texture. Such aspects are vital for implementing a complete computer vision solution. Mathematical morphology is a field of computer science that independently deals with such aspects of an image [6,9]. Its ability to combine morphological operators to perform complex image filtering operations is widely used. Therefore, computer scientists should consider the study of combining SVD with morphological operators to produce a more complete computer vision solution.
 	
 	\begin{thebibliography}{9}
 		
