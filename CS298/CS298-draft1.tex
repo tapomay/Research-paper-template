@@ -15,6 +15,8 @@
 \usepackage{float}
 \usepackage{tabularx}
 \usepackage{multirow}
+\usepackage{adjustbox}
+\usepackage{subfiles}
 \graphicspath{ {img/} }
 
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -499,19 +501,11 @@
 		\centering
 	\end{figure}
 
-For more details, refer how they are used with 9-mer data in section [modeling]
-
-	\begin{table}[H]
-		
-		\begin{tabular}{ | c |}
-			\hline
-			AGT\textbf{GT}AAGT \\
-			\hline
-		\end{tabular}
-		\centering
-		\caption{Table template}
-	\end{table}
-
+	For more details, refer how they are used with 9-mer data in section [modeling]
+	
+	\section{\large RESULTS}
+		\subfile{CS298-draft1-results}
+	
 	\begin{thebibliography}{9}
 		
 		\bibitem{arstechnica}
