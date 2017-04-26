@@ -161,7 +161,7 @@
 
 	\section{\large PROBLEM STATEMENT}
 	To study the selection of splice sites by the spliceosome, three data sets were built, consisting of authentic, cryptic, and neighboring 5’ splice sites. The data sets comprise of thousands of 9-mers: sequences that are 9 bases long. Authentic and cryptic splice sites are extracted from public datasets. The neighboring splice site 9-mers are extracted from 100 base-pairs downstream and 100 base-pairs upstream of each cryptic splice site. \par
-	The primary goal is to build probabilistic models for each data set and quantitatively compare their similarities. The primary hypothesis is that the authentic and cryptic splice sites are inherently different. The secondary hypothesis is that the neighboring splice sites are more dissimilar than both authentic and cryptic splice sites. This should help us understand the behavior of a spliceosome when it chooses cryptic splice sites and discards neighboring splice sites when the authentic splice site has been altered.
+	The primary goal is to build probabilistic models for each data set and quantitatively compare their similarities and differences. The primary hypothesis is that the authentic and cryptic splice sites are inherently different. The secondary hypothesis is that the neighboring splice sites are more dissimilar than both authentic and cryptic splice sites. This should help us understand the behavior of a spliceosome when it chooses cryptic splice sites and discards neighboring splice sites in case of mutations that disrupt the authentic splice site.
     
     \section{DATA SPECIFICATIONS}
     \subsection{5' SPLICE SITES}
@@ -342,7 +342,7 @@
 	
 	Total neighboring 5’ splice site 9-mers extracted : \textbf{2213}
 	
-	\section{Algorithm selection}
+	\section{ALGORITHM SELECTION}
 	In case of 5’ splice sites, we can model the problem statement as a search problem. The spliceosome binds to a specific subset of the entire 9-mer search space. The cardinality of each position in the 9-mer is four (equivalent to A, C, G, and T), and the positions 4 and 5 are always occupied by the GT di-nucleotide. Hence, the size of the search space is $ 4^{7} = 16384 $. This search space comprises of the authentic, cryptic, and neighboring splice sites. An important goal is to study the statistical properties of the known samples from these three categories of splice sites and prove that they are inherently different. \par
 	Evolutionary Algorithms(EAs) are applicable to problems that have no known classical optimization methods[handbook]. If a traditional method is applicable to solve a problem, then EA should not be used since traditional methods are more efficient in such a case. Since we do not understand the choices of a spliceosome completely, EAs are suitable for this problem. The section [Methods] describes a Genetic Algorithm based approach.\par
 	Three primary forms of EA:
@@ -513,17 +513,17 @@
 		\item allele: each base in the n-mer can take one of the following four nucleotides (A: Adenine, C: Cytosine, G: Guanine, T: Thymine)
 	\end{itemize}
 	
-	\subsection{BASE\_MAP}
+	\subsubsection{BASE\_MAP}
 	In order to randomize allele generation or mutation, a random integer generator is used along with a mapping of alleles to integers. Each allele is mapped to an integer and the mapping is persisted as a global constant in the code. This mapping does not change across executions. \\
 	- A: 1 \\
 	- C: 2 \\
 	- G: 3 \\
-	- T: 4 \\
-	\subsection{9-mer}
+	- T: 4
+	\subsubsection{9-mer}
 	A chromosome for a 5’ splice site 9-mer is represented as a string of length 9 where each character belongs to the set {A, C, G, T} \par
 	E.g.: AAAGTGTCC
 	
-	\subsection{13-mer}
+	\subsubsection{13-mer}
 	A chromosome for a 3’ splice site 13-mer is represented as a string of length 13 where each character belongs to the set {A, C, G, T} \par
 	E.g.: AGATTCTCCCAGA
 	
@@ -531,7 +531,113 @@
 	\textbf{POSITION WEIGHT MATRIX}
 	[[]]
 	
-	\subsection{ALGORITHMS}
+	\subsection{ALGORITHMS: GA}
+	
+	The high-level generic flow of the algorithm is as follows:
+	\begin{enumerate}
+		\item Build a probabilistic model of the input dataset
+		\item Start with a random population
+		\item Extrapolate a subset of the search space using the probabilistic model built in step 1
+		\item Determine how much of the input dataset is covered by the subset of the search space extrapolated in step 3
+	\end{enumerate}
+
+	The input dataset comprises of the following types of splice sites:
+	\begin{itemize}
+		\item $A_5$: All known authentic 5’ splice sites
+		\item $C_5$: All known cryptic 5’ splice sites
+		\item $N_5$: All known neighboring 5' splice sites extracted as specified in section 3.7
+		\item $A_3$: All known authentic 3’ splice sites
+		\item $C_3$: All known cryptic 3’ splice sites		
+	\end{itemize}
+			
+	For the sake of simplicity, let us consider only the 5' splice site datasets: $A_5, C_5, and N_5$.
+	Let $S_5$ be the entire search space of 5' splice sites.
+	$$|S_5| = 4^7 = 16384$$
+	Without making any assumptions about the relation that exists between each dataset and $S_5$, we can state: 
+	$$ A_5 \subset S_5 $$ 
+	$$ C_5 \subset S_5 $$
+	$$ N_5 \subset S_5 $$
+
+	Now, we can define the following functions that map the entire search space to boolean values indicating membership to the known set of splice sites.
+	$$ fcrypt_5:  S_5 \rightarrow Boolean; fcrypt_5(x)\textnormal{ = True  }\forall x \in C_5 $$
+	$$ fauth_5: S_5 \rightarrow Boolean; fauth_5(x)\textnormal{ = True  }\forall x \in A_5 $$
+	$$ fsplice_5: S_5 \rightarrow Boolean; fsplice_5(x)\textnormal{ = True  }\forall x \in \{A_5 U C_5\} $$
+	
+	Similarly, for 3’ splice sites, we can define the entire search space $S_3$ such that:
+	$$ |S_3| = 4^{11} = 4194304 $$
+	and we can define similar membership functions as follows:
+	$$ fcrypt_3:  S_3 \rightarrow Boolean; fcrypt_3(x)\textnormal{ = True  }\forall x \in C_3 $$
+	$$ fauth_3: S_3 \rightarrow Boolean; fauth_3(x)\textnormal{ = True  }\forall x \in A_3 $$
+	$$ fsplice_3: S_3 \rightarrow Boolean; fsplice_3(x)\textnormal{ = True  }\forall x \in \{A_3 U C_3\} $$
+	
+	Now, we can redefine the problem statement defined in [section 2] as follows:\\
+	Can each membership function on chromosomes (fcrypt, fauth and fsplice) be defined in terms of simpler functions of the individual genes? \par
+	
+	We can use Genetic Algorithms to randomly extrapolate a subset of the search space $S_5$ with the help of a suitable fitness function. PWM is a highly sensible measure of statistical distribution of nucleotides in an n-mer. Hence, the PWM score of an n-mer is used as the fitness function for the Genetic Algorithm. The extrapolated subset of $S_5$ should have a high degree of similarity to the dataset used to train the PWM as compared to other datasets. \par
+	
+	\subsubsection{COMPUTING EXACT MATCH RATIO (EMR)}
+	Let,
+	\begin{itemize}
+		\item $PWM\_A_5$ : PWM trained using $A_5$
+		\item $PWM\_C_5$ : PWM trained using $C_5$
+		\item $PWM\_N_5$ : PWM trained using $N_5$
+		\item $EA_5$ : Subset of $S_5$ extrapolated using GA and $PWM\_A_5$
+		\item $EC_5$ : Subset of $S_5$ extrapolated using GA and $PWM\_C_5$
+		\item $EN_5$ : Subset of $S_5$ extrapolated using GA and $PWM\_N_5$
+	\end{itemize}
+	
+	We compare the $EA_5$, $EC_5$, and $EN_5$ subsets based on their degree of similarity to the subsets $A_5$, $C_5$, and $N_5$. For the sake of simplicity, we compute degree of similarity using exact match ratio (EMR). \par
+	Given two subsets S1 and S2, EMR can be defined as follows:
+	$$ EMR(S1, S2) = |S2 - S1| / |S2| $$
+	
+	For example, consider the following comparisons:\\
+	$ EMR(EA_5, A_5) = |A_5 - EA_5| / |A_5| $ : Percentage of chromosomes in $A_5$ that are covered by $EA_5$ \\
+	This can also be written as : $ EMR(EA_5, A_5) = |A_5 \cap EA_5| / |A_5| $ \\
+	Similarly, we can define $ EMR(EA_5, C_5) = |C_5 \cap EA_5| / |C_5| $ \\
+	In simpler terms, EMP(S1, S2) = ratio of individual n-mer strings in S2 covered by S1
+
+	\subsubsection{COMPETING DATASETS}
+	Two datasets are competing if they are supposed to be intrinsically different as per the hypothesis.
+	Thus,
+	\begin{itemize}
+	\item $A_5 \textnormal{ competes } C_5$
+	\item $C_5 \textnormal{ competes } A_5$
+	\item $N_5 \textnormal{ competes } A_5 \cup C_5$
+	\end{itemize}
+
+	\subsubsection{COMPARISON SCORES}
+	Using the definition of EMR, we can define the score metrics that quantify the degree of similarity for comparing the datasets.\\
+	Let us assume two datasets P and Q and their extrapolated sets EP and EQ (using GA with PWM). If P and Q are competing datasets(defined in [section 5.3.2]), we can define the following comparison scores:
+	\begin{itemize}
+		\item PRESERVATION SCORE (PSCORE)
+		$$ PSCORE(P) = EMR(EP, P) $$
+		$$ PSCORE(Q) = EMR(EQ, Q) $$
+		\item CONFUSION SCORE (CSCORE)
+		$$ CSCORE(P) = 1 - EMR(EP, Q) $$
+		$$ CSCORE(Q) = 1 - EMR(EQ, P) $$
+	\end{itemize}
+	If there exists a GA, that can give an EP and an EQ that maximize the scores PSCORE(P), PSCORE(Q), CSCORE(P), and CSCORE(Q), then we can conclude that P and Q are intrinsically different.
+	
+	\subsubsection{STEPS}
+	For 5' splice sites:\\
+	Given datasets: $A_5, C_5,\textnormal{ and }N_5$
+	\begin{enumerate}
+		\item Compute $PWM\_A_5$, $PWM\_C_5$, and $PWM\_N_5$ from $A_5$, $C_5$, and $N_5$ respectively
+		\item Initialize a random initial population P(1) of 9-mers with the GT di-nucleotide at positions 4 and 5
+		\item Using $PWM\_A_5$ and a suitable GA parameters, extrapolate $EA_5$ from P(1)
+		\item Using $PWM\_C_5$ and a suitable GA parameters, extrapolate $EC_5$ from P(1)
+		\item Using $PWM\_N_5$ and a suitable GA parameters, extrapolate $EN_5$ from P(1)
+		\item Compute $PSCORE(A_5)$ and $CSCORE(A_5)$ given that $A_5$ and $C_5$ are competing
+		\item Compute $PSCORE(C_5)$ and $CSCORE(C_5)$ given that $C_5$ and $A_5$ are competing
+		\item Compute $PSCORE(N_5)$ and $CSCORE(N_5)$ given that $N_5$ and $A_5 \cup C_5$ are competing
+	\end{enumerate}
+	
+	The steps for 3' splice sites are same as above. The given datasets for 3' splice sites are $A_3, C_3,\textnormal{ and }N_3$.
+	
+	\subsubsection{DATASET LIMITATIONS}
+	For the sake of simplicity, the experiments presented in this report are performed on limited datasets that do not include all known splice sites. The datasets are specified in detail in section 3.
+	
+	\subsection{ALGORITHMS: OPERATORS AND STRATEGIES}
 	\subsubsection{SELECTION STRATEGIES}	
 	\begin{enumerate}
 	\item Roulette Wheel Selection: \par
@@ -619,7 +725,7 @@
 		\end{tabular}
 	\end{table}	
 	
-	\textbf{Algorithm:}
+	\textbf{Algorithm:} \par
 	We can re-use the roulette wheel selection algorithm after recomputing the fitness probabilities as a linear function of the ranks.
 	\vspace{5mm}
 	\begin{lstlisting}[language=Python]
@@ -658,7 +764,7 @@
 	\end{lstlisting}
 
 	\item Tournament Selection: \par
-	\textbf{Algorithm:}
+	\textbf{Algorithm:} \par
 	A fixed number (s) of random chromosomes are selected for a tournament. The chromosome with the highest fitness value among the s chromosomes is added to the mating pool. This process is repeated M times to select M chromosomes.
 	\begin{lstlisting}[language=Python]
     def tournament(population, fitnessFunction, s=2):
@@ -678,20 +784,77 @@
 	\subsubsection{CROSSOVER OPERATORS}
 	\begin{enumerate}
 
-	\item One Point Crossover:
+	\item One Point Crossover: \par
+	
+	Example:
+	\begin{figure}[h]
+		\includegraphics[width=\textwidth]{xover-1p}
+		\caption{Example: One Point Crossover}
+		\centering
+	\end{figure}
+	
+	\textbf{Algorithm:} \par
+	A crossover site is selected at random and all alleles on one side of the site are exchanged between the two parents.
 	\begin{lstlisting}[language=Python]
+    def uniform(parent1, parent2, swap_prob = 0.5):
+        parentLen = len(parent1)
+        child1 = parent1[:]
+        child2 = parent2[:]
+        for idx in range(parentLen):
+            spin = random.random()
+            if spin > 0.5: # perform allele swap at idx
+                swap(child1, child2, idx)
+        return (child1, child2)
 	\end{lstlisting}
 
-	\item Two Point Crossover:
+	\item Two Point Crossover: \par
+	Example:
+	\begin{figure}[h]
+		\includegraphics[width=\textwidth]{xover-2p}
+		\caption{Example: Two Point Crossover}
+		\centering
+	\end{figure}
+	
+	\textbf{Algorithm:} \par
+	Two crossover sites are selected at random and all alleles between the two sites are exchanged between the two parents.	
+	
 	\begin{lstlisting}[language=Python]
+    def two_point(parent1, parent2):
+        parentLen = len(parent1)
+        site1 = pick_random_site(parentLen)
+        site2 = pick_random_site(parentLen, negativeSites=[site1])    
+        site1, site2 = sorted((site1, site2))
+        p1_sub = parent1[site1:site2+1]
+        p2_sub = parent2[site1:site2+1]
+        child1 = parent1[0:site1] + p2_sub + parent1[site2+1:]
+        child2 = parent2[0:site1] + p1_sub + parent2[site2+1:]
+        return (child1, child2)
 	\end{lstlisting}
 
-	\item k-Point Crossover:
+	\item k-Point Crossover: \par
+	The concept of 1-point or 2-point crossover can be extended to k points. The alleles between each odd crossover point and its immediately successive even crossover point are exchanged between the two parents.
+	
+	\item Uniform Crossover: \par
+	Example:
+	\begin{figure}[h]
+		\includegraphics[width=\textwidth]{xover-uniform}
+		\caption{Example: Uniform Crossover}
+		\centering
+	\end{figure}
+	
+	\textbf{Algorithm:} \par
+	Each gene in the chromosome is considered for crossover with some swapping probability $p_{e}$. The alleles at the chosen gene locations ($R > p_{e}$) are swapped between the two parents.
+	
 	\begin{lstlisting}[language=Python]
-	\end{lstlisting}
-
-	\item Uniform Crossover:
-	\begin{lstlisting}[language=Python]
+    def uniform(parent1, parent2, swap_prob = 0.5):
+        parentLen = len(parent1)
+        child1 = parent1[:]
+        child2 = parent2[:]
+        for idx in range(parentLen):
+            spin = random.random()
+            if spin > 0.5: # perform allele swap at idx
+                swap(child1, child2, idx)
+        return (child1, child2)
 	\end{lstlisting}
 
 	\item Uniform Order-Based Crossover:
