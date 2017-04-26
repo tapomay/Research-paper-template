@@ -260,23 +260,27 @@ We may define a sequential solution as follows:
 	END FOR
 	RETURN ACC
 	\end{lstlisting}
-	
+
+	\if false	
 	\begin{figure}[h]
 	\includegraphics[width=\textwidth]{fig1_1}
 	\caption{Computation tree of sequential solution. Source: \cite{steele}}
 		\centering
 	\end{figure}
+	\fi
 	
 	The left skew in the computation tree is indicative of a sequential computation.
 A parallel solution should typically lead to a balanced binary computation tree.
 
+	\if false	
 	\begin{figure}[h]
 	\includegraphics[width=\textwidth]{fig2_1}
 	\caption{Computation tree of parallel solution. Source: \cite{steele}}
 	\centering
 	\label{fig:par}
 	\end{figure}
-
+	\fi
+	
 \par The addition monad that we defined above is suitable as the + operator for such an implementation. Any code written using such operator would have the following advantages. User may define code using the operator without any concern of parallelizing it explicitly. Depending on implementation of the operator, it may be transformed to a sequential or parallel implementation by the compiler.
 
 	\section{\large ALGORITHM DESIGN TECHNIQUES AND DATA PARALLELISM}

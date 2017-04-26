@@ -99,6 +99,7 @@
 	{ö}{{\"o}}1
 }
 
+	
 %
 \pagestyle{fancy}
 \fancyhf{}
@@ -107,7 +108,7 @@
 %\fancyhead[L]{\fontsize{7}{12} \selectfont APPLICATION OF COMPUTATIONAL METHODS TO STUDY THE SELECTION OF AUTHENTIC AND CRYPTIC SPLICE SITES}
 \setlength{\parindent}{0ex}
 %
-\begin{document}
+\begin{document}	
 	%
 	%title and author details
 	
@@ -501,8 +502,215 @@
 		\centering
 	\end{figure}
 
-	For more details, refer how they are used with 9-mer data in section [modeling]
+	For more details on the crossover operators, refer how they are used with 9-mer data in section [modeling]
 	
+	\section{MODELLING THE PROBLEM STATEMENT USING GA}
+	\subsection{DATA MODEL}
+	Following is a logical mapping of the terminology shown in figure 6 to the splice site n-mer data:
+	\begin{itemize}
+		\item chromosome: an entire n-mer
+		\item gene: each base in the n-mer
+		\item allele: each base in the n-mer can take one of the following four nucleotides (A: Adenine, C: Cytosine, G: Guanine, T: Thymine)
+	\end{itemize}
+	
+	\subsection{BASE\_MAP}
+	In order to randomize allele generation or mutation, a random integer generator is used along with a mapping of alleles to integers. Each allele is mapped to an integer and the mapping is persisted as a global constant in the code. This mapping does not change across executions. \\
+	- A: 1 \\
+	- C: 2 \\
+	- G: 3 \\
+	- T: 4 \\
+	\subsection{9-mer}
+	A chromosome for a 5’ splice site 9-mer is represented as a string of length 9 where each character belongs to the set {A, C, G, T} \par
+	E.g.: AAAGTGTCC
+	
+	\subsection{13-mer}
+	A chromosome for a 3’ splice site 13-mer is represented as a string of length 13 where each character belongs to the set {A, C, G, T} \par
+	E.g.: AGATTCTCCCAGA
+	
+	\subsection{FITNESS FUNCTION}
+	\textbf{POSITION WEIGHT MATRIX}
+	[[]]
+	
+	\subsection{ALGORITHMS}
+	\subsubsection{SELECTION STRATEGIES}	
+	\begin{enumerate}
+	\item Roulette Wheel Selection: \par
+	Example: \\
+	\begin{table}[H]
+		\centering
+		\caption{Sample data: Roulette Wheel Selection}
+		\begin{tabular}{ |c|c|c|c|c| }
+		\hline
+		Label & Chromosome & Fitness & Probability & Cumulative Probability \\
+		\hline
+		\hline
+		C1 & 1101010 & 30 & $30/80=0.375$ & 0.375 \\
+		\hline
+		C2 & 1011001 & 15 & $15/80=0.1875$ & 0.5625 \\
+		\hline
+		C3 & 0100110 & 10 & $10/80=0.125$ & 0.6875 \\
+		\hline
+		C4 & 1000101 & 5 & $5/80=0.0625$ & 0.75 \\
+		\hline
+		C5 & 1111000 & 20 & $20/80=0.25$ & 1 \\
+		\hline
+		\end{tabular}
+	\end{table}	
+	
+	\begin{figure}[h]
+		\includegraphics[width=\textwidth]{roulette-pie}
+		\caption{Roulette wheel for chromosomes in Table 5}
+		\centering
+	\end{figure}
+
+	
+	\textbf{Algorithm:}\par
+	A random number generator is used to generate a value $r \epsilon [0,1]$. The cumulative probabilities are used to select a chromosome. For e.g. if r = 0.7, then C4 is selected since $0.6875 < 0.7 < 0.75$
+	\vspace{5mm}
+	\begin{lstlisting}[language=Python]
+    def rouletteWheel(population, fitnessFunction):
+        fitnessArr = []
+        for solution in population:
+            fitness = fitnessFunction(solution) # compute fitness of each chromosome
+            fitnessArr.append(fitness)
+        
+        minFitness = min(fitnessArr)
+        fitnessArr = numpy.divide(fitnessArr, float(minFitness)) #scaling fitness values
+        popFitness = float(sum(fitnessArr))   
+        normFitnessArr = map(lambda x: x / popFitness, fitnessArr)  # normalize fitnessArr
+        
+        cumulative = 0
+        normFitnessCumulativeArr = []
+        for norm in normFitnessArr: # compute cumulative normalized fitness values
+            cumulative = cumulative + norm
+            normFitnessCumulativeArr.append(cumulative)
+        
+        ret = []
+        for i in range(len(population)):
+            spin = random.random()
+            for j in range(1, len(normFitnessCumulativeArr)):
+                if spin < normFitnessCumulativeArr[j]:
+                    ret.append(population[j-1])
+                    break
+        return ret    
+	\end{lstlisting}
+
+	\item Ranked Selection: \par
+	Example: \\
+	Recomputing probabilities of the sample chromosomes from Table 5:
+	\begin{table}[H]
+		\centering
+		\caption{Sample data: Ranked Selection}
+		\begin{tabular}{ |c|c|c|c|c|c| }
+			\hline
+			Label & Chromosome & Fitness & Rank & Probability & Cumulative Probability \\
+			\hline
+			\hline
+			C1 & 1101010 & 30 & 5 & $5/15=0.333$ & 0.333 \\
+			\hline
+			C2 & 1011001 & 15 & 3 & $3/15=0.2$ & 0.533 \\
+			\hline
+			C3 & 0100110 & 10 & 2 & $2/15=0.133$ & 0.666 \\
+			\hline
+			C4 & 1000101 & 5 & 1 & $1/15=0.067$ & 0.733 \\
+			\hline
+			C5 & 1111000 & 20 & 4 & $4/15=0.267$ & 1 \\
+			\hline
+		\end{tabular}
+	\end{table}	
+	
+	\textbf{Algorithm:}
+	We can re-use the roulette wheel selection algorithm after recomputing the fitness probabilities as a linear function of the ranks.
+	\vspace{5mm}
+	\begin{lstlisting}[language=Python]
+    def ranked(population, fitnessFunction):
+        fitnessTupleArr = []
+        for solution in population:
+            fitness = fitnessFunction(solution)
+            fitnessTupleArr.append((solution, fitness))
+        fitnessTupleArrSorted = sorted(fitnessTupleArr, key = lambda x:x[1]) # sort by fitness
+    
+        count = len(fitnessTupleArrSorted)
+        popFitness = count * (count+1) / 2.0 # simulating rank order
+    
+        normFitnessTupArr = []
+        idx = 1
+        for tup in fitnessTupleArrSorted:
+            rankProb = idx / popFitness
+            normFitnessTupArr.append((tup[0], rankProb))
+            idx += 1
+    
+        cumulative = 0
+        normFitnessCumulativeArr = []
+        for norm in normFitnessTupArr:
+            cumulative = cumulative + norm[1]
+            normFitnessCumulativeArr.append(cumulative)
+    
+        ret = []
+        for i in range(len(population)):
+            spin = random.random()
+            for j in range(1, len(normFitnessCumulativeArr)):
+                if spin < normFitnessCumulativeArr[j]:
+                    ret.append(fitnessTupleArrSorted[j-1][0])
+                    break
+        return ret
+	        
+	\end{lstlisting}
+
+	\item Tournament Selection: \par
+	\textbf{Algorithm:}
+	A fixed number (s) of random chromosomes are selected for a tournament. The chromosome with the highest fitness value among the s chromosomes is added to the mating pool. This process is repeated M times to select M chromosomes.
+	\begin{lstlisting}[language=Python]
+    def tournament(population, fitnessFunction, s=2):
+        ret = []
+        m = len(population)
+        for idx in range(m):
+            compete = random.sample(population, s)
+            competeFitness = [fitnessFunction(individual) for individual in compete]
+            winnerIdx = numpy.argmax(competeFitness)
+            winner = compete[winnerIdx]
+            ret.append(winner)
+        return ret
+	\end{lstlisting}
+
+	\end{enumerate}
+
+	\subsubsection{CROSSOVER OPERATORS}
+	\begin{enumerate}
+
+	\item One Point Crossover:
+	\begin{lstlisting}[language=Python]
+	\end{lstlisting}
+
+	\item Two Point Crossover:
+	\begin{lstlisting}[language=Python]
+	\end{lstlisting}
+
+	\item k-Point Crossover:
+	\begin{lstlisting}[language=Python]
+	\end{lstlisting}
+
+	\item Uniform Crossover:
+	\begin{lstlisting}[language=Python]
+	\end{lstlisting}
+
+	\item Uniform Order-Based Crossover:
+	\begin{lstlisting}[language=Python]
+	\end{lstlisting}
+
+	\item Order-Based Crossover:
+	\begin{lstlisting}[language=Python]
+	\end{lstlisting}
+
+	\item Partially Matched Crossover:
+	\begin{lstlisting}[language=Python]
+	\end{lstlisting}
+
+	\item Uniform Crossover:
+	\begin{lstlisting}[language=Python]
+	\end{lstlisting}
+
+	\end{enumerate}
 	\section{\large RESULTS}
 		\subfile{CS298-draft1-results}
 	
