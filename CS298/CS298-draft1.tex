@@ -166,7 +166,7 @@
     
     \section{DATA SPECIFICATIONS}
     \subsection{5' SPLICE SITES}
-    The 5’ splice sites are extracted based on the location of the invariant GT dinucleotide. The authentic splice sites are extracted from the Homo Sapiens Splice Sites database (HS3D) \cite{hs3d1,hs3d-2}. The cryptic splice sites and neighboring splice sites are extracted from the DBASS5 database \cite{dbass-0, dbass3}.
+    The 5’ splice sites are extracted based on the location of the invariant GT di-nucleotide. The authentic splice sites are extracted from the Homo Sapiens Splice Sites database (HS3D) \cite{hs3d1,hs3d-2}. The cryptic splice sites and neighboring splice sites are extracted from the DBASS5 database \cite{dbass-0, dbass3}.
    	\begin{figure}[h]
    		\includegraphics[width=\textwidth]{fiveprime}
    		\caption{5' Splice Site}
@@ -345,7 +345,7 @@
 	Total neighboring 5’ splice site 9-mers extracted : \textbf{2213}
 	
 	\section{ALGORITHM SELECTION}
-	In case of 5’ splice sites, we can model the problem statement as a search problem. The spliceosome binds to a specific subset of the entire 9-mer search space. The cardinality of each position in the 9-mer is four (equivalent to A, C, G, and T), and the positions 4 and 5 are always occupied by the GT di-nucleotide. Hence, the size of the search space is $ 4^{7} = 16384 $. This search space comprises of the authentic, cryptic, and neighboring splice sites. An important goal is to study the statistical properties of the known samples from these three categories of splice sites and prove that they are inherently different. \par
+	For the 5’ and 3' splice sites, we can model the problem statement as a search problem. The spliceosome binds to a specific subset of the entire 9-mer search space. The cardinality of each position in the 9-mer is four (equivalent to A, C, G, and T), and the positions 4 and 5 are always occupied by the GT di-nucleotide. Hence, the size of the search space is $ 4^{7} = 16384 $. This search space comprises of the authentic, cryptic, and neighboring splice sites. An important goal is to study the statistical properties of the known samples from these three categories of splice sites and prove that they are inherently different. \par
 	Evolutionary Algorithms(EAs) are applicable to problems that have no known classical optimization methods \cite{handbook}. If a traditional method is applicable to solve a problem, then EA should not be used since traditional methods are more efficient in such a case. Since we do not understand the choices of a spliceosome completely, EAs are suitable for this problem. The section-\ref{sec:modelling} describes a Genetic Algorithm based approach.\par
 	Three primary forms of EA:
 	\begin{itemize}
@@ -1016,7 +1016,8 @@
 	\section{CONCLUSION}
 	As seen in the scoring summary tables, the PWM score based fitness of the n-mer population extrapolated by GA increases with the generation count. PWM score is known to be a good at modeling splice sites in nucleotide sequences \cite{pwm-2}. This indicates that the GA is successfully traversing the search space in a controlled fashion. \par
 	Across all the generations of the splice sites, the populations with best mean scores are listed in the score summary tables in sections \ref{score5} and \ref{score3}. The high preservation scores(pscore) indicate high similarity between the extrapolated set and the corresponding training splice site data. The high confusion scores (cscore) indicate high dissimilarity between the extrapolated set and the corresponding competing (section-\ref{sec:competing}) splice site data. \par
-	The coverage scores for 3' splice sites are expected to be worse than 5' splice sites as explained in section-\ref{score-enhanced}. This can be improved by using local alignment-based logic for computing the scores.
+	The coverage scores for 3' splice sites are expected to be worse than 5' splice sites as explained in section-\ref{score-enhanced}. This can be improved by using local alignment-based logic for computing the scores. \par
+	Some of the topics not covered here are schema theorem and analysis, representations and encoding techniques, and alternative random number generators. Schema analysis gives a more detailed understanding of the behavior of the GA. It is also used to compute a suitable crossover probability. It has been shown that variations in the random number generator implementation have an impact on the performance of the GA. 
 	
 	\begin{thebibliography}{9}
 		
