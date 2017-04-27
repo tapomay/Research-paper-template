@@ -17,6 +17,7 @@
 \usepackage{multirow}
 \usepackage{adjustbox}
 \usepackage{subfiles}
+\usepackage{longtable}
 \graphicspath{ {img/} }
 
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -232,7 +233,7 @@
 	\subsection{CRYPTIC 5' SPLICE SITE}
 	
 	The cryptic 5’ splice sites are collected from the DBASS5 database portal \cite{dbass-0, dbass3} by crawling all available splice details page. The splice site details page contains the nucleotide sequence with the context of the mutation that alters the splicing location. The mutation is indicated in the sequence with a greater than symbol. \par
-	For e.g: (G>A) means G is replaced by A \newline
+	For example: (G>A) means G is replaced by A \newline
 	The cryptic splice sites are denoted by the slash symbol. \newline
 	Consider the following nucleotide sequence extracted from the first record.\newline
 	URL: http://www.dbass.org.uk/DBASS5/viewsplicesite.aspx?id=627 (last retrieved: 04/23/2017)
@@ -529,10 +530,37 @@
 	A chromosome for a 3’ splice site 13-mer is represented as a string of length 13 where each character belongs to the set {A, C, G, T} \par
 	E.g.: AGATTCTCCCAGA
 	
-	\subsection{FITNESS FUNCTION}
-	\textbf{POSITION WEIGHT MATRIX}
-	[[]]
+	\subsection{FITNESS FUNCTION: POSITION WEIGHT MATRIX}
+	Position Weight Matrix (PWM) is a popular bioinformatic tool for predicting motifs in a sequence of nucleotides. It has also been found useful in many other applications involving sequence patterns and local multi-alignments. PWM has been successfully applied to representation of splice sites in nucleotide sequences \cite{pwm-2}. The PWM score of a motif is a useful measure of its strength \cite{pwm-1}. \par
 	
+	\begin{figure}[H]
+		\label{fig:pwm}
+		\includegraphics[width=\textwidth]{"pwm"}
+		\caption{Position Weight Matrix: block diagram}
+		\centering
+	\end{figure}
+	
+	Diagram-\ref{fig:pwm} shows the different phases involved in computation of a PWM from nucleotide sequences.
+	\textbf{Algorithm: PWM}
+	Given Inputs:
+	\begin{itemize}
+	\item Nucleotide sequences
+	\item Nucleotide prior probabilities
+	\end{itemize}
+	
+	\begin{lstlisting}[language=Python]
+        symbolOddsMap = {A:0.28, C:0.22, G:0.22, T:0.28}
+        freqMat = frequencyCounts(data, symbolSet, columnCount)
+        laplacePWMMat = laplaceCountPWM(freqMat, symbolSet)
+        logoddsMat = logodds(laplacePWMMat, symbolSet, symbolOddsMap)	
+	\end{lstlisting}
+	
+	The logOdds matrix computed in step 4 is the PWM and can be used to score unknown sequences.\\
+	Laplace pseudo count is used to handle zero values in step 3. \\
+	The logodds matrix is the logarithm of a likelihood ratio. Hence, \\
+	score > 0 $\Rightarrow$ positive sample \\
+    score < 0 $\Rightarrow$ negative sample
+
 	\subsection{ALGORITHMS: GA}
 	
 	The high-level generic flow of the algorithm is as follows:
@@ -607,7 +635,7 @@
 	\item $N_5 \textnormal{ competes } A_5 \cup C_5$
 	\end{itemize}
 
-	\subsubsection{COMPARISON SCORES}
+	\subsubsection{COMPARISON SCORES} \label{scores}
 	Using the definition of EMR, we can define the score metrics that quantify the degree of similarity for comparing the datasets.\\
 	Let us assume two datasets P and Q and their extrapolated sets EP and EQ (using GA with PWM). If P and Q are competing datasets(defined in section-\ref{sec:competing}, we can define the following comparison scores:
 	\begin{itemize}
@@ -620,6 +648,10 @@
 	\end{itemize}
 	If there exists a GA, that can give an EP and an EQ that maximize the scores PSCORE(P), PSCORE(Q), CSCORE(P), and CSCORE(Q), then we can conclude that P and Q are intrinsically different.
 	
+	\subsubsection{ENHANCED SCORES} \label{score-enhanced}
+	The PSCORE and CSCORE measures are based on EMR, which looks for exact match across the two participating datasets. The scores of the 3' splice sites are expected to be worse than the 5' splice sites because the 3' splice sites are longer and thus less probable to exactly match the known splice sites. \par
+	The coverage logic can be enhanced by considering local alignment scores instead of exact match. This should give us better coverage scores for 3' splice sites.
+		
 	\subsubsection{STEPS} \label{sec:steps}
 	For 5' splice sites:\\
 	Given datasets: $A_5, C_5,\textnormal{ and }N_5$
@@ -673,7 +705,7 @@
 
 	
 	\textbf{Algorithm:}\par
-	A random number generator is used to generate a value $r \epsilon [0,1]$. The cumulative probabilities are used to select a chromosome. For e.g. if r = 0.7, then C4 is selected since $0.6875 < 0.7 < 0.75$
+	A random number generator is used to generate a value $r \epsilon [0,1]$. The cumulative probabilities are used to select a chromosome. For example, if r = 0.7, then C4 is selected since $0.6875 < 0.7 < 0.75$
 	\vspace{5mm}
 	\begin{lstlisting}[language=Python]
     def rouletteWheel(population, fitnessFunction):
@@ -860,9 +892,50 @@
 	\end{lstlisting}
 
 	\item Uniform Order-Based Crossover:
+	Example:
+	\begin{figure}[h]
+		\includegraphics[width=\textwidth]{xover-uniformorder}
+		\caption{Example: Uniform Order-Based Crossover}
+		\centering
+	\end{figure}
+	
+	\textbf{Algorithm:} \par
+	A random binary template is used to guide the crossover. The alleles at indices in the parents corresponding to a 0 in the mask are reordered according to their order in the other chromosome.
 	\begin{lstlisting}[language=Python]
+    def uniform_orderbased(parent1, parent2):
+        parentLen = len(parent1)
+        child1 = parent1[:]
+        child2 = parent2[:]
+        maskStr = bin(random.getrandbits(parentLen)).replace('0b','')
+        prefix = '0'*(parentLen - len(maskStr))
+        maskStr = prefix + maskStr
+        c1mask = [int(c) for c in maskStr]
+        c2mask = [int(c) for c in maskStr]
+    
+        for neg in negativeSites:
+            c1mask[neg] = 1
+            c2mask[neg] = 1
+    
+        c1SwapSet = [child1[idx] for idx in range(parentLen) if c1mask[idx] == 0]
+        c2SwapSet = [child2[idx] for idx in range(parentLen) if c2mask[idx] == 0]
+        for idx in range(parentLen):
+            allele = parent2[idx]
+            if allele in c1SwapSet and 0 in c1mask:
+                c1Idx = c1mask.index(0)
+                child1[c1Idx] = allele
+                c1mask[c1Idx] = 1
+    
+            allele = parent1[idx]
+            if allele in c2SwapSet and 0 in c2mask:
+                c2Idx = c2mask.index(0)
+                child2[c2Idx] = allele
+                c2mask[c2Idx] = 1
+    
+        return (child1, child2)
+
 	\end{lstlisting}
 
+	\if false
 	\item Order-Based Crossover:
 	\begin{lstlisting}[language=Python]
 	\end{lstlisting}
@@ -874,7 +947,8 @@
 	\item Uniform Crossover:
 	\begin{lstlisting}[language=Python]
 	\end{lstlisting}
-
+	\fi
+	
 	\end{enumerate}
 	\section{\large RESULTS}
 		The algorithm defined in the steps section-\ref{sec:steps} is executed for each combination of the following parameters for GA:
@@ -904,11 +978,41 @@
 	\subsection{SCORING TABLES: 3'}
 	\subfile{CS298-draft1-results-best-3p}
 
-	\subsection{SCORE SUMMARY: 5'}
+	\subsection{SCORE SUMMARY: 5'} \label{score5}
 	\subfile{CS298-draft1-summary-5p}
 	
-	\subsection{SCORE SUMMARY: 3'}
+	\subsection{SCORE SUMMARY: 3'} \label{score3}
 	\subfile{CS298-draft1-summary-3p}
+	
+	\section{ANALYSIS}
+	\subsection{5' SPLICE SITE}
+	The 5' splice sites are represented by a 9-mer with a fixed GT di-nucleotide in positions 4 and 5. Each position in the 9-mer has a cardinality of four corresponding to the four nucleotides - Adenine, Cytosine, Guanine, and Thymine. \\
+	Search space size = $4^{9-2}$ = $4^7$ = \textbf{16384} \\
+	The PWM-based genetic algorithm described in section\ref{sec:modelling} extrapolates a subset of this search space. From the results described in section-\ref{score5} we can see that the algorithm converges decently close to the known splice site data in ??? generations\\
+	Given, \\
+	Generation Count = 100 \\
+	Generation size = 20 \\
+	Number of 9-mers covered = $20 * 100 = 2000 $\\
+	Search space coverage = $2000 / 16384 = 0.122$ \\
+	Thus, by exploring only 12.2\% of the search space, we are able to approximately converge to a subset of the search space that is similar to known splice sites.
+
+	\subsection{3' SPLICE SITE}
+	The 3' splice sites are represented by a 13-mer with a fixed AG di-nucleotide in positions 11 and 12.
+	Search space size = $4^{13-2}$ = $4^11$ = \textbf{4194304} \\
+	Given, \\
+	Generation Count = 100 \\
+	Generation size = 20 \\
+	Number of 9-mers covered = $20 * 100 = 2000 $\\
+	Search space coverage = $2000 / 4194304 = 0.00047$ \\
+	Thus, by exploring only 0.047\% of the search space, we are able to approximately converge to a subset of the search space that is similar to known splice sites.
+	From the results described in section-\ref{score3} we can see that the algorithm converges decently close to the known splice site data in ??? generations\par
+
+	\section{PHASE 2: CLASSIFICATION TEST USING EXTRAPOLATED SETS}
+	%\subfile{CS298-draft1-classification}
+	\section{CONCLUSION}
+	As seen in the scoring summary tables, the PWM score based fitness of the n-mer population extrapolated by GA increases with the generation count. PWM score is known to be a good at modeling splice sites in nucleotide sequences \cite{pwm-2}. This indicates that the GA is successfully traversing the search space in a controlled fashion. \par
+	Across all the generations of the splice sites, the populations with best mean scores are listed in the score summary tables in sections \ref{score5} and \ref{score3}. The high preservation scores(pscore) indicate high similarity between the extrapolated set and the corresponding training splice site data. The high confusion scores (cscore) indicate high dissimilarity between the extrapolated set and the corresponding competing (section-\ref{sec:competing}) splice site data. \par
+	The coverage scores for 3' splice sites are expected to be worse than 5' splice sites as explained in section-\ref{score-enhanced}. This can be improved by using local alignment-based logic for computing the scores.
 	
 	\begin{thebibliography}{9}
 		
@@ -970,7 +1074,34 @@
 		\textit{ Genetic algorithms. In Search methodologies (pp. 93-117). Springer US.}
 		Available [Online]: \url{http://www.graham-kendall.com/papers/sgk2014.pdf}
 		Last retrieved: 04/26/2017
-				
-		\end{thebibliography}
-	
+		
+		\bibitem{khuri1}
+		Back, T., \& Khuri, S. (1994, June). 
+		\textit{ An evolutionary heuristic for the maximum independent set problem. In Evolutionary Computation, 1994. IEEE World Congress on Computational Intelligence., Proceedings of the First IEEE Conference on (pp. 531-535). IEEE.}
+		Available [Online]: \url{https://pdfs.semanticscholar.org/6881/7937ebf74d20c68e04ecc9b4aa04a4e8d8dc.pdf}
+		Last retrieved: 04/26/2017
+
+		\bibitem{khuri2}
+		Khuri, S. (2012). 
+		\textit{ Lecture Notes on Genetic Algorithms }
+
+		\bibitem{khuri3}
+		Khuri, S. (2017). 
+		\textit{ Lecture Notes on BioInformatics }	    
+
+		\bibitem{pwm-1}
+		Xia, X. (2012).
+		\textit{ Position weight matrix, gibbs sampler, and the associated significance tests in motif characterization and prediction. Scientifica, 2012.}
+		Available [Online]: \url{http://downloads.hindawi.com/journals/scientifica/2012/917540.pdf} Last retrieved: 04/26/2017
+		
+		\bibitem{pwm-2}
+		Claverie, J. M., \& Audic, S. (1996).
+		\textit{The statistical significance of nucleotide position-weight matrix matches. Computer applications in the biosciences: CABIOS, 12(5), 431-439.}
+		Available [Online]: \url{http://bioinformatics.oxfordjournals.org/content/12/5/431.full.pdf} Last retrieved: 04/26/2017
+	    
+		\bibitem{pangning}
+		Pang-Ning, T., Steinbach, M., \& Kumar, V. (2006).  
+		\textit{Introduction to data mining. In Library of congress (Vol. 74) }
+	    
+	\end{thebibliography}
 \end{document}
