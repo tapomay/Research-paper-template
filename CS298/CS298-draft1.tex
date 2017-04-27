@@ -507,7 +507,7 @@
 
 	For more details on the crossover operators, refer how they are used with 9-mer data in the subsection-\ref{sec:crossover}.
 	
-	\section{MODELLING THE PROBLEM STATEMENT USING GA} \label{sec:modelling}
+	\section{MODELING THE PROBLEM STATEMENT USING GA} \label{sec:modelling}
 	\subsection{DATA MODEL}
 	Following is a logical mapping of the terminology shown in figure 6 to the splice site n-mer data:
 	\begin{itemize}
@@ -561,7 +561,7 @@
 	score > 0 $\Rightarrow$ positive sample \\
     score < 0 $\Rightarrow$ negative sample
 
-	\subsection{ALGORITHMS: GA}
+	\subsection{ALGORITHMS: GA} \label{sec:algoGA}
 	
 	The high-level generic flow of the algorithm is as follows:
 	\begin{enumerate}
@@ -649,7 +649,7 @@
 	If there exists a GA, that can give an EP and an EQ that maximize the scores PSCORE(P), PSCORE(Q), CSCORE(P), and CSCORE(Q), then we can conclude that P and Q are intrinsically different.
 	
 	\subsubsection{ENHANCED SCORES} \label{score-enhanced}
-	The PSCORE and CSCORE measures are based on EMR, which looks for exact match across the two participating datasets. The scores of the 3' splice sites are expected to be worse than the 5' splice sites because the 3' splice sites are longer and thus less probable to exactly match the known splice sites. \par
+	The PSCORE and CSCORE measures are based on EMR, which looks for exact match across the two participating datasets. The scores of the 3' splice sites are expected to be worse than the 5' splice sites because the 3' splice sites are longer and thus less probable to exactly match the known splice sites. Hence, the EMR based scores are too rigid for longer sequences. \par
 	The coverage logic can be enhanced by considering local alignment scores instead of exact match. This should give us better coverage scores for 3' splice sites.
 		
 	\subsubsection{STEPS} \label{sec:steps}
@@ -1008,7 +1008,11 @@
 	From the results described in section-\ref{score3} we can see that the algorithm converges decently close to the known splice site data in ??? generations\par
 
 	\section{PHASE 2: CLASSIFICATION TEST USING EXTRAPOLATED SETS}
-	%\subfile{CS298-draft1-classification}
+	
+	In this section, we explore the performance of a classifier trained with the splice sites extrapolated by the GA. The known splice sites are tested with this classifier to measure the accuracy of the model. The main goal is to workaround the limitations of the exact match based scoring logic discussed in the section-\ref{score-enhanced}. The classifier based scoring should perform better than the exact match based scores.
+	
+	\subfile{CS298-draft1-classification}
+
 	\section{CONCLUSION}
 	As seen in the scoring summary tables, the PWM score based fitness of the n-mer population extrapolated by GA increases with the generation count. PWM score is known to be a good at modeling splice sites in nucleotide sequences \cite{pwm-2}. This indicates that the GA is successfully traversing the search space in a controlled fashion. \par
 	Across all the generations of the splice sites, the populations with best mean scores are listed in the score summary tables in sections \ref{score5} and \ref{score3}. The high preservation scores(pscore) indicate high similarity between the extrapolated set and the corresponding training splice site data. The high confusion scores (cscore) indicate high dissimilarity between the extrapolated set and the corresponding competing (section-\ref{sec:competing}) splice site data. \par
@@ -1102,6 +1106,21 @@
 		\bibitem{pangning}
 		Pang-Ning, T., Steinbach, M., \& Kumar, V. (2006).  
 		\textit{Introduction to data mining. In Library of congress (Vol. 74) }
+
+		\bibitem{roc}
+		Davis, J., \& Goadrich, M. (2006, June). 
+		\textit{The relationship between Precision-Recall and ROC curves. In Proceedings of the 23rd international conference on Machine learning (pp. 233-240). ACM.}
+		Available [Online]: \url{http://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_DavisG06.pdf} Last retrieved: 04/26/2017
+
+		\bibitem{rf1}
+		Boulesteix, A. L., Janitza, S., Kruppa, J., \& König, I. R. (2012).
+		\textit{Overview of random forest methodology and practical guidance with emphasis on computational biology and bioinformatics. Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery, 2(6), 493-507. }
+		Available [Online]: \url{https://epub.ub.uni-muenchen.de/13766/1/TR.pdf} Last retrieved: 04/26/2017
+
+		\bibitem{rf2}
+		Liaw, A., \& Wiener, M. (2002). 
+		\textit{Classification and regression by randomForest. R news, 2(3), 18-22.}
+		Available [Online]: \url{http://ai2-s2-pdfs.s3.amazonaws.com/6e63/3b41d93051375ef9135102d54fa097dc8cf8.pdf} Last retrieved: 04/26/2017
 	    
 	\end{thebibliography}
 \end{document}
