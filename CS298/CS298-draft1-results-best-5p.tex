@@ -29,8 +29,18 @@
 			\hline
 		\end{tabular}
 	\end{adjustbox}
+	\label{tab-5p-res1}
 \end{table}
 
+The scores specified in Table-\ref{tab-5p-res1} are obtained by executing a GA with roulette wheel selection and two point crossover on authentic 5' splice sites for each combination of generation size(m) and generation count(gc). The score function is the confusion score defined in equation-\ref{eq-cscore}. As defined in section-\ref{sec:competing}, the competing dataset for authentic 5' splice sites($A_5$) is the cryptic 5' splice sites($C_5$). It is a measure of the dissimilarity between authentic and cryptic 5' splice sites. \par
+From table-\ref{tab-5p-res1}, we can interpret the results for each generation size(m) and generation count(gc) as follows:
+\begin{itemize}
+	\item For m = 10, gc = 10, the mean score \^{f} of 1.0 indicates that there is zero percent match between the extrapolated authentic splice sites and the known cryptic splice sites. Although this result is favorable to the hypothesis, it is not a useful result because of the small size of the datasets being compared using cscore.
+	\item For a given m, the mean cscore reduces as the number generations increases. This indicates that, as the generations progress, some of the known cryptic splice sites start appearing in the extrapolated authentic splice sites.
+	\item For a given gc(10, 100, or 1000), the score with the higher generation size(m = 20) is better than the lower generation size(m = 10).
+	\item Based on the frequency of cscore distribution across the hundred exections, m=20 with gc=100 shows the best results. Out of the hundred executions, 89 of them reported a high cscore of 1.0, 9 executions reported cscore=0.95, while two executions reported 0.9 and 0.8 each.
+	\item Although m=20 with gc=1000 has a close mean score to gc=100, it shows a much wider distribution of the cscore across the executions. Thus, the parameters m=20 with gc = 100 report the best cscore for authentic 5' splice sites.
+\end{itemize} 
 
 \begin{table}[H]
 	\centering
@@ -62,7 +72,15 @@
 			\hline
 		\end{tabular}
 	\end{adjustbox}
+	\label{tab-5p-res2}
 \end{table}
+
+The scores specified in Table-\ref{tab-5p-res2} are obtained by executing a GA with roulette wheel selection and uniform ordered crossover on cryptic 5' splice sites for the same combinations of generation size(m) and generation count(gc). The score function is the PWM score fitness as defined in section-\ref{sec-pwm}.
+\begin{itemize}
+	\item For a given m, the mean fitness \^{f} increases as the number generations increases. This indicates that, as the generations progress, the population converges towards healthier individuals overall. This can be justified using the Schema theorem \cite{khuri2}.
+	\item For a given gc(10, 100, or 1000), the score with the higher generation size(m = 20) is worse than the lower generation size(m = 10). This indicates that the best fitness value that a population could achieve in this case, reduced as the number of individuals in the population increased.
+	\item Based on the frequency of fitness distribution across the hundred executions, m=10 with gc=1000 shows the best results. Out of the hundred executions, 28 of them reported the highest PWM score fitness of 10.55.
+\end{itemize}
 
 \begin{table}[H]
 	\centering
@@ -94,4 +112,11 @@
 			\hline
 		\end{tabular}
 	\end{adjustbox}
+	\label{tab-5p-res3}
 \end{table}
+The scores specified in Table-\ref{tab-5p-res3} are obtained by executing a GA with roulette wheel selection and uniform ordered crossover on Neighboring 5' splice sites. The score function is the confusion score defined in equation-\ref{eq-cscore}. As defined in section-\ref{sec:competing}, the competing dataset for neighboring 5' splice sites($N_5$) is the union of cryptic and authentic 5' splice sites($A_5 \cup C_5$). The observations here are similar to the cscore results from Table-\ref{tab-5p-res1}.
+\begin{itemize}
+	\item For a given m, the mean cscore reduces as the number generations increases. This indicates that, as the generations progress, some of the known splice sites start appearing in the extrapolated neighboring putative splice sites.
+	\item For a given gc(10, 100, or 1000), the score with the higher generation size(m = 20) is better than the lower generation size(m = 10) except for gc=1000.
+	\item Based on the frequency of cscore distribution across the hundred exections, m=20 with gc=100 shows the best results. Out of the hundred executions, 82 of them reported a high cscore of 1.0.
+\end{itemize}
