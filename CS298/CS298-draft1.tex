@@ -345,7 +345,7 @@
 	Total neighboring 5’ splice site 9-mers extracted : \textbf{2213}
 	
 	\section{ALGORITHM SELECTION}
-	For the 5’ and 3' splice sites, we can model the problem statement as a search problem. The spliceosome binds to a specific subset of the entire 9-mer search space. The cardinality of each position in the 9-mer is four (equivalent to A, C, G, and T), and the positions 4 and 5 are always occupied by the GT di-nucleotide. Hence, the size of the search space is $ 4^{7} = 16384 $. This search space comprises of the authentic, cryptic, and neighboring splice sites. An important goal is to study the statistical properties of the known samples from these three categories of splice sites and prove that they are inherently different. \par
+	For the 5’ and 3' splice sites, we can model the problem statement as a search problem. The spliceosome binds to a specific subset of the entire 9-mer search space. The cardinality of each position in the 9-mer is four (equivalent to A, C, G, and T). In 5' splice sites, the positions 4 and 5 are always occupied by the GT di-nucleotide. Hence, the size of the 5' splice site search space is $ 4^{7} = 16384 $. This search space comprises of the authentic, cryptic, and neighboring splice sites. An important goal is to study the statistical properties of the known samples from these three categories of splice sites and prove that they are inherently different. \par
 	Evolutionary Algorithms(EAs) are applicable to problems that have no known classical optimization methods \cite{handbook}. If a traditional method is applicable to solve a problem, then EA should not be used since traditional methods are more efficient in such a case. Since we do not understand the choices of a spliceosome completely, EAs are suitable for this problem. The section-\ref{sec:modelling} describes a Genetic Algorithm based approach.\par
 	Three primary forms of EA:
 	\begin{itemize}
@@ -988,7 +988,7 @@
 	\subsection{5' SPLICE SITE}
 	The 5' splice sites are represented by a 9-mer with a fixed GT di-nucleotide in positions 4 and 5. Each position in the 9-mer has a cardinality of four corresponding to the four nucleotides - Adenine, Cytosine, Guanine, and Thymine. \\
 	Search space size = $4^{9-2}$ = $4^7$ = \textbf{16384} \\
-	The PWM-based genetic algorithm described in section\ref{sec:modelling} extrapolates a subset of this search space. From the results described in section-\ref{score5} we can see that the algorithm converges decently close to the known splice site data in ??? generations\\
+	The PWM-based genetic algorithm described in section\ref{sec:modelling} extrapolates a subset of this search space. From the results described in section-\ref{score5} we can see that the algorithm converges decently close to the known splice site data in 1000 generations\\
 	Given, \\
 	Generation Count = 100 \\
 	Generation size = 20 \\
@@ -1005,7 +1005,7 @@
 	Number of 9-mers covered = $20 * 100 = 2000 $\\
 	Search space coverage = $2000 / 4194304 = 0.00047$ \\
 	Thus, by exploring only 0.047\% of the search space, we are able to approximately converge to a subset of the search space that is similar to known splice sites.
-	From the results described in section-\ref{score3} we can see that the algorithm converges decently close to the known splice site data in ??? generations\par
+	From the results described in section-\ref{score3} we can see that the algorithm converges decently close to the known splice site data in 100 generations\par
 
 	\section{PHASE 2: CLASSIFICATION TEST USING EXTRAPOLATED SETS}
 	
