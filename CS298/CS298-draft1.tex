@@ -162,11 +162,11 @@
 
 	\section{\large PROBLEM STATEMENT} \label{sec:problem}
 	To study the selection of splice sites by the spliceosome, three data sets were built, consisting of authentic, cryptic, and neighboring 5’ splice sites. The data sets comprise of thousands of 9-mers: sequences that are 9 bases long. Authentic and cryptic splice sites are extracted from public datasets. The neighboring splice site 9-mers are extracted from 100 base-pairs downstream and 100 base-pairs upstream of each cryptic splice site. \par
-	The primary goal is to build probabilistic models for each data set and quantitatively compare their similarities and differences. The primary hypothesis is that the authentic and cryptic splice sites are inherently different. The secondary hypothesis is that the neighboring splice sites are more dissimilar than both authentic and cryptic splice sites. This should help us understand the behavior of a spliceosome when it chooses cryptic splice sites and discards neighboring splice sites in case of mutations that disrupt the authentic splice site.
+	The primary goal is to build probabilistic models for each data set and quantitatively compare their similarities and differences. The primary hypothesis is that the authentic and cryptic splice sites are inherently different. The secondary hypothesis is that the neighboring splice sites are more dissimilar than both authentic and cryptic splice sites. This should help us understand the behavior of the spliceosome when it chooses cryptic splice sites and discards neighboring splice sites in case of mutations that disrupt the authentic splice site.
     
-    \section{DATA SPECIFICATIONS}
+    \section{DATA SPECIFICATIONS} \label{sec-dataspec}
     \subsection{5' SPLICE SITES}
-    The 5’ splice sites are extracted based on the location of the invariant GT di-nucleotide. The authentic splice sites are extracted from the Homo Sapiens Splice Sites database (HS3D) \cite{hs3d1,hs3d-2}. The cryptic splice sites and neighboring splice sites are extracted from the DBASS5 database \cite{dbass-0, dbass3}.
+    The 5’ splice sites are extracted based on the location of the invariant GT di-nucleotide. The authentic splice sites are extracted from the Homo Sapiens Splice Sites database (HS3D) \cite{hs3d-1,hs3d-2}. The cryptic splice sites and neighboring splice sites are extracted from the DBASS5 database \cite{dbass-0, dbass3}.
    	\begin{figure}[h]
    		\includegraphics[width=\textwidth]{fiveprime}
    		\caption{5' Splice Site}
@@ -244,8 +244,9 @@
 		CCAGCAACTT GGCTCTTTTT GGAGAGCGGC TGGGCCTGGT TGGCCACAGC CCCAGTTCTG CCAGCCTGAA CTTCCTCCAT GCCCTGGAGG TCATGTTCAA ATCCACCGTC CAGCTCATGT TCATGCCCAG GAGCCTGTCT CGCTGGACCA GCCCCAA\textbf{G/G} TGTGGAAGGA GCACTTTGAG GCCTGGGACT GCATCTTCCA GTAC\textbf{(G>A)}g tgaggccagg gacccgggca gtgctatggg gaagggacac catgggggcc caatttctcc ctctccacca cccagtgggg aatggaggcc acagggaggg gtcggggatt cctcaccttc ctgccaggga gattggtgcg aggctggggc tgggctgggc tgatccggag aatttgggat gagagcaggg agacttgggt gtcggggcag tctgggcagg aggaggacac tgaaggatgt ctcccagcac caaagtctga gggctgcctc ccgctccccg \\
 		\hline
 	\end{tabular}
-	
-	We can observe from other details on the page that:
+	\newline
+	\newline
+	In the above nucleotide sequence:
 	\begin{itemize}
 		\item Capital nucleotide symbols indicate the trailing part of the Exon
 		\item Small nucleotide symbols indicate the leading part of the Intron
@@ -328,8 +329,9 @@
 		gtaagggccg ggggcatttt ttctttctta aaaaaatttt tttttaagag atgggttctt gctatgctgc ccaggctggt cttaaattcc tagtctcaaa tgatcctccc acctcagcct caagtgtgag ccacctttgg ggcatcccca atccaggtcc ctggaagctc ttgggggggc atatctggtg gggagaaagc aggggttggg gaggccgaag aaggtcaggc cctcagctgc cttcatca\textbf{g/ t}tcccaccct cca\textbf{g/c}cccc \textbf{(a>g)}\textbf{(c>g)} ctcctcctgc agACAAGCTG GTGTCTAGGA ACTACCCGGA CCTGTCCTTG GGAGACTACT CCCTGCTCTG GAAAGCCCAC AAGAAGCTCA CCCGCTCAGC CCTGCTGCTG GGCATCCGTG ACTCCATGGA GCCAGTGGTG GAGCAGCTGA CCCAGGAGTT CTGTGAGgta \\
 		\hline
 	\end{tabular}
-	\vspace{5mm} \break
-	We can observe from other details on the page that:
+	\\
+	\\
+	In the above nucleotide sequence:
 	\begin{itemize}
 	\item Capital nucleotide symbols indicate the leading part of the Exon
 	\item Small nucleotide symbols indicate the trailing part of the Intron
@@ -340,9 +342,11 @@
 	Total cryptic 3’ splice site 13-mers extracted : \textbf{306}
 
 	\subsection{NEIGHBORING 5' SPLICE SITE}
-	The putative splice sites around the known cryptic splice sites are called as neighboring splice sites. These are the putative splice sites that were not selected for splicing by the spliceosome in the event of a mutation. Using the nucleotide sequences extracted from the DBASS5 splice site details pages. The 100 base-pairs upstream and 100 base-pairs downstream of the splice site are parsed to look for the GT dinucleotide. All such occurrences are captured in the neighboring 5’ splice site dataset in the form of 9-mers with the GT dinucleotide as the 4th and 5th bases.\par
+	The putative splice sites around the known cryptic splice sites are called neighboring splice sites. These are the putative splice sites that were not selected for splicing by the spliceosome in the event of a mutation. Using the nucleotide sequences extracted from the DBASS5 splice site details pages. The 100 base-pairs upstream and 100 base-pairs downstream of the splice site are parsed to look for the GT dinucleotide. All such occurrences are captured in the neighboring 5’ splice site dataset in the form of 9-mers with the GT dinucleotide as the 4th and 5th bases.\par
 	
-	Total neighboring 5’ splice site 9-mers extracted : \textbf{2213}
+	Total neighboring 5’ splice site 9-mers extracted : \textbf{2213} \par
+	
+	There are many candidate algorithms for using the datasets specified in this section to solve the problem. The next section emphasizes the importance of analyzing its search space and proposes a suitable algorithm for solving the problem.
 	
 	\section{ALGORITHM SELECTION}
 	For the 5’ and 3' splice sites, we can model the problem statement as a search problem. The spliceosome binds to a specific subset of the entire 9-mer search space. The cardinality of each position in the 9-mer is four (equivalent to A, C, G, and T). In 5' splice sites, the positions 4 and 5 are always occupied by the GT di-nucleotide. Hence, the size of the 5' splice site search space is $ 4^{7} = 16384 $. This search space comprises of the authentic, cryptic, and neighboring splice sites. An important goal is to study the statistical properties of the known samples from these three categories of splice sites and prove that they are inherently different. \par
@@ -412,6 +416,7 @@
 		\includegraphics[width=\textwidth,height=\textheight]{"GA-block1"}
 		\caption{An algorithmic framework for genetic algorithms}
 		\centering
+		\label{fig-framework}
 	\end{figure}
 	
 	The two phases that can be used to introduce bias \cite{handbook}: 
@@ -505,7 +510,9 @@
 		\centering
 	\end{figure}
 
-	For more details on the crossover operators, refer how they are used with 9-mer data in the subsection-\ref{sec:crossover}.
+	For more details on the crossover operators, refer how they are used with 9-mer data in the subsection-\ref{sec:crossover}. \par
+	
+	The selection strategies and crossover operators described in this section can be applied to the 5' and 3' splice site datasets, described in section-\ref{sec-dataspec}, using the algorithms specified in the next section.
 	
 	\section{MODELING THE PROBLEM STATEMENT USING GA} \label{sec:modelling}
 	\subsection{DATA MODEL}
@@ -530,7 +537,7 @@
 	A chromosome for a 3’ splice site 13-mer is represented as a string of length 13 where each character belongs to the set {A, C, G, T} \par
 	E.g.: AGATTCTCCCAGA
 	
-	\subsection{FITNESS FUNCTION: POSITION WEIGHT MATRIX}
+	\subsection{FITNESS FUNCTION: POSITION WEIGHT MATRIX} \label{sec-pwm}
 	Position Weight Matrix (PWM) is a popular bioinformatic tool for predicting motifs in a sequence of nucleotides. It has also been found useful in many other applications involving sequence patterns and local multi-alignments. PWM has been successfully applied to representation of splice sites in nucleotide sequences \cite{pwm-2}. The PWM score of a motif is a useful measure of its strength \cite{pwm-1}. \par
 	
 	\begin{figure}[H]
@@ -618,7 +625,10 @@
 	
 	We compare the $EA_5$, $EC_5$, and $EN_5$ subsets based on their degree of similarity to the subsets $A_5$, $C_5$, and $N_5$. For the sake of simplicity, we compute degree of similarity using exact match ratio (EMR). \par
 	Given two subsets S1 and S2, EMR can be defined as follows:
-	$$ EMR(S1, S2) = |S2 - S1| / |S2| $$
+	\begin{equation}
+		EMR(S1, S2) = |S2 - S1| / |S2|
+		\label{eq-emr}
+	\end{equation}
 	
 	For example, consider the following comparisons:\\
 	$ EMR(EA_5, A_5) = |A_5 - EA_5| / |A_5| $ : Percentage of chromosomes in $A_5$ that are covered by $EA_5$ \\
@@ -636,15 +646,25 @@
 	\end{itemize}
 
 	\subsubsection{COMPARISON SCORES} \label{scores}
-	Using the definition of EMR, we can define the score metrics that quantify the degree of similarity for comparing the datasets.\\
+	Using the definition of EMR from equation-\ref{eq-emr}, we can define the score metrics that quantify the degree of similarity for comparing the datasets.\\
 	Let us assume two datasets P and Q and their extrapolated sets EP and EQ (using GA with PWM). If P and Q are competing datasets(defined in section-\ref{sec:competing}, we can define the following comparison scores:
 	\begin{itemize}
 		\item PRESERVATION SCORE (PSCORE)
-		$$ PSCORE(P) = EMR(EP, P) $$
-		$$ PSCORE(Q) = EMR(EQ, Q) $$
+		\begin{equation}
+			PSCORE(P) = EMR(EP, P)
+			\label{eq-pscore}
+		\end{equation}
+		\begin{equation}
+			PSCORE(Q) = EMR(EQ, Q)
+		\end{equation}
 		\item CONFUSION SCORE (CSCORE)
-		$$ CSCORE(P) = 1 - EMR(EP, Q) $$
-		$$ CSCORE(Q) = 1 - EMR(EQ, P) $$
+		\begin{equation}
+			CSCORE(P) = 1 - EMR(EP, Q)
+			\label{eq-cscore}
+		\end{equation}
+		\begin{equation}
+			CSCORE(Q) = 1 - EMR(EQ, P)
+		\end{equation}
 	\end{itemize}
 	If there exists a GA, that can give an EP and an EQ that maximize the scores PSCORE(P), PSCORE(Q), CSCORE(P), and CSCORE(Q), then we can conclude that P and Q are intrinsically different.
 	
@@ -950,6 +970,9 @@
 	\fi
 	
 	\end{enumerate}
+	
+	All the operator and strategy algorithms specified in this section can be plugged into the parametrized GA framework defined in figure-\ref{fig-framework}. The next section presents the results of executing the GA framework for each combination of the operators and strategies. Since the result of one execution of a parametrized GA is stochastic, each instance of the parametrized GA is executed hundred times.
+	
 	\section{\large RESULTS}
 		The algorithm defined in the steps section-\ref{sec:steps} is executed for each combination of the following parameters for GA:
 		\begin{itemize}
@@ -960,7 +983,7 @@
 		\end{itemize}
  
 	\subsection{SCORING TABLES}
-	The scoring tables are computed by executing each combination of the GA parameters for 100 iterations.
+	The scoring tables are computed by executing each combination of the GA parameters 100 times.\par
 	For the set of parameter values defined above, there are 3 X 2 X 3 X 6 = 108 combinations. Each combination is executed 100 times in order to account for the stochastic nature of the results of each execution. \par
 	Format of the scoring table:
 	\begin{itemize}
