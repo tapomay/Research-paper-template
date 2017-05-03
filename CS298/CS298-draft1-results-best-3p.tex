@@ -1,39 +1,9 @@
 
-\begin{table}[H]
-	\centering
-	\caption{SELECTION: ROULETTEWHEEL; CROSSOVER: 2P: CSS - CSCORE}
-	\begin{adjustbox}{width=1\textwidth}
-		\begin{tabular}{ |c|c||c|c||c|c||c|c||c|c||c|c| }
-			\hline
-			\multicolumn{12}{|c|}{CSS - compete} \\
-			\hline
-			\multicolumn{2}{|c||}{CSS-10} & \multicolumn{2}{c||}{CSS-10} & \multicolumn{2}{c||}{CSS-10} & \multicolumn{2}{c||}{CSS-20} & \multicolumn{2}{c||}{CSS-20} & \multicolumn{2}{c|}{CSS-20}\\
-			\hline
-			\multicolumn{2}{|c||}{m = 10, gc = 10} & \multicolumn{2}{c||}{m = 10, gc = 100} & \multicolumn{2}{c||}{m = 10, gc = 1000} & \multicolumn{2}{c||}{m = 20, gc = 10} & \multicolumn{2}{c||}{m = 20, gc = 100} & \multicolumn{2}{c|}{m = 20, gc = 1000}\\
-			\hline
-			f($\bar{x}$) & N & f($\bar{x}$) & N & f($\bar{x}$) & N & f($\bar{x}$) & N & f($\bar{x}$) & N & f($\bar{x}$) & N\\
-			\hline
-			\hline
-			1.0 & 100 & 1.0 & 97 & 1.0 & 89 & 1.0 & 100 & 1.0 & 94 & 1.0 & 81\\
-			\hline
-			1.0 & 100 & 1.0 & 97 & 1.0 & 89 & 1.0 & 100 & 1.0 & 94 & 1.0 & 81\\
-			&   & 0.9 & 2 & 0.9 & 8 &   &   & 0.9 & 1 & 0.9 & 2\\
-			&   & 0.1 & 1 & 0.8 & 3 &   &   & 0.85 & 2 & 0.8 & 1\\
-			&   &   &   &   &   &   &   & 0.95 & 3 & 0.95 & 16\\
-			&   &   &   &   &   &   &   &   &   &   &  \\
-			&   &   &   &   &   &   &   &   &   &   &  \\
-			&   &   &   &   &   &   &   &   &   &   &  \\
-			&   &   &   &   &   &   &   &   &   &   &  \\
-			\hline
-			\multicolumn{2}{|c||}{\^{f} = 1.0} & \multicolumn{2}{c||}{\^{f} = 0.989} & \multicolumn{2}{c||}{\^{f} = 0.986} & \multicolumn{2}{c||}{\^{f} = 1.0} & \multicolumn{2}{c||}{\^{f} = 0.9945} & \multicolumn{2}{c|}{\^{f} = 0.988}\\
-			\hline
-		\end{tabular}
-	\end{adjustbox}
-\end{table}
 
 \begin{table}[H]
 	\centering
 	\caption{SELECTION: ROULETTEWHEEL; CROSSOVER: UNIFORMORDERBASED: AUTH - FITNESS}
+	\vspace{5mm}
 	\begin{adjustbox}{width=1\textwidth}
 		\begin{tabular}{ |c|c||c|c||c|c||c|c||c|c||c|c| }
 			\hline
@@ -61,17 +31,24 @@
 			\hline
 		\end{tabular}
 	\end{adjustbox}
+	\label{tab-3p-res1}
 \end{table}
 
-
+The scores specified in Table-\ref{tab-3p-res1} are obtained by executing a GA with roulette wheel selection and uniform ordered crossover on authentic 3' splice sites for each combination of generation size(m) and generation count(gc). The score function is the PWM score fitness as defined in section-\ref{sec-pwm}.  \par
+From table-\ref{tab-3p-res1}, we can interpret the results for each generation size(m) and generation count(gc) as follows:
+\begin{itemize}
+	\item For a given m, the mean fitness \^{f} increases as the number generations increases. This observation is similar to Table-\ref{tab-5p-res2}.
+	\item For a given gc(10, 100, or 1000), the score with the higher generation size(m = 20) is worse than the lower generation size(m = 10). However, compared to Table-\ref{tab-5p-res2}, the reduction in fitness is significantly more.
+	\item Based on the frequency of fitness distribution across the hundred executions, m=10 gives better results than m=20. Thus, the parameters shown this table lead to different results as compared to other parameters.
+\end{itemize} 
 
 \begin{table}[H]
 	\centering
-	\caption{SELECTION: TOURNAMENT; CROSSOVER: 1P: CSS - FITNESS}
+	\caption{SELECTION: TOURNAMENT; CROSSOVER: 1P: CSS - CSCORE}
 	\begin{adjustbox}{width=1\textwidth}
 		\begin{tabular}{ |c|c||c|c||c|c||c|c||c|c||c|c| }
 			\hline
-			\multicolumn{12}{|c|}{CSS - fitness} \\
+			\multicolumn{12}{|c|}{CSS - compete} \\
 			\hline
 			\multicolumn{2}{|c||}{CSS-10} & \multicolumn{2}{c||}{CSS-10} & \multicolumn{2}{c||}{CSS-10} & \multicolumn{2}{c||}{CSS-20} & \multicolumn{2}{c||}{CSS-20} & \multicolumn{2}{c|}{CSS-20}\\
 			\hline
@@ -80,20 +57,29 @@
 			f($\bar{x}$) & N & f($\bar{x}$) & N & f($\bar{x}$) & N & f($\bar{x}$) & N & f($\bar{x}$) & N & f($\bar{x}$) & N\\
 			\hline
 			\hline
-			8.40920437851 & 3 & 11.3934389795 & 52 & 11.3934389795 & 100 & 9.83636160832 & 3 & 11.3934389795 & 95 & 11.3934389795 & 100\\
+			1.0 & 88 & 0.9 & 53 & 0.9 & 93 & 1.0 & 63 & 0.95 & 40 & 0.9 & 60\\
 			\hline
-			8.40920437851 & 3 & 11.3934389795 & 52 & 11.3934389795 & 100 & 9.83636160832 & 3 & 11.3934389795 & 95 & 11.3934389795 & 100\\
-			7.22482312359 & 1 & 10.2261364545 & 1 &   &   & 8.7530404488 & 1 & 11.3180415309 & 1 &   &  \\
-			10.1326487278 & 1 & 11.1190636309 & 3 &   &   & 9.61685967267 & 1 & 10.89817396 & 2 &   &  \\
-			9.75505859319 & 1 & 11.00926658 & 2 &   &   & 10.317592886 & 1 & 11.3934389795 & 95 &   &  \\
-			6.84611527489 & 1 & 11.1142743065 & 1 &   &   & 10.2568781762 & 1 & 11.1142743065 & 1 &   &  \\
-			9.39968525485 & 1 & 10.4433682448 & 1 &   &   & 10.2290003896 & 1 &   &   &   &  \\
-			8.93927422397 & 1 & 10.8310597641 & 1 &   &   & 9.53586991017 & 1 &   &   &   &  \\
-			7.14523144658 & 1 & 11.0175498327 & 1 &   &   & 9.262226443 & 1 &   &   &   &  \\
+			1.0 & 88 & 0.9 & 53 & 0.9 & 93 & 1.0 & 63 & 0.95 & 40 & 0.9 & 60\\
+			0.1 & 1 & 1.0 & 29 & 0.7 & 1 & 1.0 & 63 & 1.0 & 6 & 0.65 & 2\\
+			0.2 & 1 & 0.1 & 7 & 0.9 & 93 & 0.6 & 1 & 0.2 & 2 & 0.05 & 3\\
+			0.3 & 1 & 0.8 & 2 & 0.8 & 1 & 0.1 & 2 & 0.1 & 13 & 0.1 & 8\\
+			0.8 & 1 & 0.3 & 1 & 0.1 & 4 & 0.8 & 4 & 0.4 & 1 & 0.4 & 1\\
+			0.9 & 7 & 0.6 & 1 &   &   & 0.3 & 1 & 0.85 & 2 & 0.9 & 60\\
+			0.7 & 1 & 0.2 & 2 &   &   & 0.85 & 3 & 0.05 & 5 & 0.85 & 14\\
+			&   & 0.9 & 53 &   &   & 0.9 & 6 & 0.6 & 1 & 0.8 & 3\\
 			\hline
-			\multicolumn{2}{|c||}{\^{f} = 8.43758297674} & \multicolumn{2}{c||}{\^{f} = 11.1936370172} & \multicolumn{2}{c||}{\^{f} = 11.3934389795} & \multicolumn{2}{c||}{\^{f} = 9.66219155445} & \multicolumn{2}{c||}{\^{f} = 11.3785629414} & \multicolumn{2}{c|}{\^{f} = 11.3934389795}\\
+			\multicolumn{2}{|c||}{\^{f} = 0.964} & \multicolumn{2}{c||}{\^{f} = 0.808} & \multicolumn{2}{c||}{\^{f} = 0.86} & \multicolumn{2}{c||}{\^{f} = 0.925} & \multicolumn{2}{c||}{\^{f} = 0.735} & \multicolumn{2}{c|}{\^{f} = 0.7475}\\
 			\hline
 		\end{tabular}
 	\end{adjustbox}
+	\label{tab-3p-res2}
 \end{table}
+
+The scores specified in Table-\ref{tab-3p-res2} are obtained by executing a GA with tournament selection and one point crossover on cryptic 3' splice sites for each combination of generation size(m) and generation count(gc). The score function is the confusion score defined in equation-\ref{eq-cscore}. \par
+From table-\ref{tab-3p-res2}, we can interpret the results for each generation size(m) and generation count(gc) as follows:
+\begin{itemize}
+	\item For a given m, the mean cscore reduces as the number generations increases. This indicates that, as the generations progress, some of the known authentic splice sites start appearing in the extrapolated cryptic splice sites.
+	\item For a given gc(10, 100, or 1000), the score with the higher generation size(m = 20) is worse than the lower generation size(m = 10). For 5' splice sites they are higher. This can be explained by considering the score function in equation-\ref{eq-cscore}. The EMR function used in the equation is too rigid for longer sequences. Since, 3' splice site sequences are longer than 5' splice sites, we see a different behavior here.
+	\item Based on the frequency of cscore distribution across the hundred exections, m=10 with gc=100 shows the best results. Out of the hundred executions, 93 of them reported a high cscore of 1.0.
+\end{itemize} 
 
