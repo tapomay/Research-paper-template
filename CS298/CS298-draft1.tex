@@ -18,6 +18,8 @@
 \usepackage{adjustbox}
 \usepackage{subfiles}
 \usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
 \graphicspath{ {img/} }
 
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -1001,17 +1003,29 @@
 	\subsection{SCORING TABLES: 3'}
 	\subfile{CS298-draft1-results-best-3p}
 
-	\subsection{SCORE SUMMARY: 5'} \label{score5}
+	\subsection{SCORE SUMMARIES} 
 	\subfile{CS298-draft1-summary-5p}
-	
-	\subsection{SCORE SUMMARY: 3'} \label{score3}
 	\subfile{CS298-draft1-summary-3p}
+	
+	The summary tables \ref{score5} and \ref{score3} specify the best scores observed for each combination of dataset (Authentic splice sites, cryptic splice sites, and neighboring splice sites) and score metric (pscore, cscore, and fitness). \par
+	We observe that the one point crossover, roulette wheel selection, and tournament selection dominate the scores for both 5' and 3' splice sites. \par
+	Based on these results, it is highly interesting to filter the results and observe only the scores that contribute to the hypothesis the most. Such a point of interest is the cscores for cryptic splice sites that are specified in the next subsection.
+	
+	\subsubsection{POINT OF INTEREST: CSCORE FOR CRYPTIC SPLICE SITES}
+	
+	In this section, we aggregate the cscores for cryptic splice sites across all combinations of the GA parameters because we want to quantify the intrinsic difference or similarity between authentic and cryptic splice sites. Please note that by the definition of cscore in equation-\ref{eq-cscore}, since cryptic and authentic splice sites are competing datasets, it measures the dissimilarity between the datasets based on exact match ratio(equation-\ref{eq-emr}). A high cscore indicates high dissimilarity.
+	
+	\subfile{CS298-draft1-summary-css-cscores}
+	
+	In the tables \ref{tab-css-cscore3} and \ref{tab-css-cscore5}, we observe that the cscores are high across multiple selection and crossover operators. This proves that the cryptic splice sites are intrinsically different from authentic splice sites.
+	
+	Although, the results presented in this section are promising, the complexity of the GA for obtaining the results should not exceed an exhaustive search on the search space. The next section analyzes the time complexity of the GA for traversing the search space in order to construct the extrapolated 5' and 3' spice sites. 
 	
 	\section{ANALYSIS}
 	\subsection{5' SPLICE SITE}
 	The 5' splice sites are represented by a 9-mer with a fixed GT di-nucleotide in positions 4 and 5. Each position in the 9-mer has a cardinality of four corresponding to the four nucleotides - Adenine, Cytosine, Guanine, and Thymine. \\
 	Search space size = $4^{9-2}$ = $4^7$ = \textbf{16384} \\
-	The PWM-based genetic algorithm described in section\ref{sec:modelling} extrapolates a subset of this search space. From the results described in section-\ref{score5} we can see that the algorithm converges decently close to the known splice site data in 1000 generations\\
+	The PWM-based genetic algorithm described in section\ref{sec:modelling} extrapolates a subset of this search space. From the results described in Table-\ref{score5} we can see that the algorithm converges decently close to the known splice site data in 1000 generations\\
 	Given, \\
 	Generation Count = 100 \\
 	Generation size = 20 \\
@@ -1038,9 +1052,12 @@
 
 	\section{CONCLUSION}
 	As seen in the scoring summary tables, the PWM score based fitness of the n-mer population extrapolated by GA increases with the generation count. PWM score is known to be a good at modeling splice sites in nucleotide sequences \cite{pwm-2}. This indicates that the GA is successfully traversing the search space in a controlled fashion. \par
-	Across all the generations of the splice sites, the populations with best mean scores are listed in the score summary tables in sections \ref{score5} and \ref{score3}. The high preservation scores(pscore) indicate high similarity between the extrapolated set and the corresponding training splice site data. The high confusion scores (cscore) indicate high dissimilarity between the extrapolated set and the corresponding competing (section-\ref{sec:competing}) splice site data. \par
+	Across all the generations of the splice sites, the populations with best mean scores are listed in the score summary tables \ref{score5} and \ref{score3}. The high preservation scores(pscore) indicate high similarity between the extrapolated set and the corresponding training splice site data. The high confusion scores (cscore) indicate high dissimilarity between the extrapolated set and the corresponding competing (section-\ref{sec:competing}) splice site data. \par
 	The coverage scores for 3' splice sites are expected to be worse than 5' splice sites as explained in section-\ref{score-enhanced}. This can be improved by using local alignment-based logic for computing the scores. \par
 	Some of the topics not covered here are schema theorem and analysis, representations and encoding techniques, and alternative random number generators. Schema analysis gives a more detailed understanding of the behavior of the GA. It is also used to compute a suitable crossover probability. It has been shown that variations in the random number generator implementation have an impact on the performance of the GA. 
+	
+	%\section{APPENDIX}
+	%\subfile{CS298-draft1-results-css-cscore-3p}
 	
 	\begin{thebibliography}{9}
 		

@@ -1,0 +1,58 @@
+\begin{table}[H]
+\centering
+\caption{SUMMARY: 5' - BEST GA PARAMETERS FOR CSS CSCORES }
+\vspace{5mm}
+\begin{adjustbox}{width=1\textwidth}
+\begin{tabular}{ |c|c|c|c|c| }
+\hline
+select & xover & M best & GC best & score mean\\
+\hline
+\hline
+ROULETTEWHEEL & 1P & 20 & 10 & 0.9665\\
+\hline
+ROULETTEWHEEL & 2P & 10 & 10 & 0.935\\
+\hline
+ROULETTEWHEEL & UNIFORMORDERBASED & 20 & 10 & 0.9105\\
+\hline
+ROULETTEWHEEL & UNIFORM & 20 & 10 & 0.9475\\
+\hline
+TOURNAMENT & 1P & 10 & 10 & 0.361\\
+\hline
+RANKED & 1P & 10 & 1000 & 0.984\\
+\hline
+\end{tabular}
+\end{adjustbox}
+\label{tab-css-cscore5}
+\end{table}
+
+% Params are selected by observing the following facts:
+% The score should increase from m = 10 to 20
+% The score should decrease for GC = 10 , 100 , 1000
+
+\begin{table}[H]
+\centering
+\caption{SUMMARY: 3' - BEST GA PARAMETERS FOR CSS CSCORES }
+\vspace{5mm}
+\begin{adjustbox}{width=1\textwidth}
+\begin{tabular}{ |c|c|c|c|c| }
+\hline
+select & xover & M best & GC best & score mean\\
+\hline
+\hline
+ROULETTEWHEEL & 1P & \multicolumn{3}{c|}{INCONCLUSIVE}\\
+\hline
+ROULETTEWHEEL & 2P & 20 & 100 & 0.9945\\
+\hline
+ROULETTEWHEEL & UNIFORMORDERBASED & 10 & 1000 & 0.95\\
+\hline
+ROULETTEWHEEL & UNIFORM & 10 & 100 & 0.998\\
+\hline
+TOURNAMENT & 1P & 10 & 10 & 0.964\\
+\hline
+RANKED & 1P & \multicolumn{3}{c|}{INCONCLUSIVE}\\
+\hline
+\end{tabular}
+\end{adjustbox}
+\label{tab-css-cscore3}
+\end{table}
+
