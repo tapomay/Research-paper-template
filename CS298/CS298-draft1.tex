@@ -975,7 +975,7 @@
 	
 	All the operator and strategy algorithms specified in this section can be plugged into the parametrized GA framework defined in figure-\ref{fig-framework}. The next section presents the results of executing the GA framework for each combination of the operators and strategies. Since the result of one execution of a parametrized GA is stochastic, each instance of the parametrized GA is executed hundred times.
 	
-	\section{\large RESULTS}
+	\section{\large RESULTS} \label{sec-results}
 		The algorithm defined in the steps section-\ref{sec:steps} is executed for each combination of the following parameters for GA:
 		\begin{itemize}
 			\item generation count: \{10, 100, 1000\} - number of generations
@@ -1021,7 +1021,7 @@
 	
 	Although, the results presented in this section are promising, the complexity of the GA for obtaining the results should not exceed an exhaustive search on the search space. The next section analyzes the time complexity of the GA for traversing the search space in order to construct the extrapolated 5' and 3' spice sites. 
 	
-	\section{ANALYSIS}
+	\section{ANALYSIS} \label{sec-analysis}
 	\subsection{5' SPLICE SITE}
 	The 5' splice sites are represented by a 9-mer with a fixed GT di-nucleotide in positions 4 and 5. Each position in the 9-mer has a cardinality of four corresponding to the four nucleotides - Adenine, Cytosine, Guanine, and Thymine. \\
 	Search space size = $4^{9-2}$ = $4^7$ = \textbf{16384} \\
@@ -1046,15 +1046,17 @@
 
 	\section{PHASE 2: CLASSIFICATION TEST USING EXTRAPOLATED SETS}
 	
-	In this section, we explore the performance of a classifier trained with the splice sites extrapolated by the GA. The known splice sites are tested with this classifier to measure the accuracy of the model. The main goal is to workaround the limitations of the exact match based scoring logic discussed in the section-\ref{score-enhanced}. The classifier based scoring should perform better than the exact match based scores.
+	In this section, we explore the performance of a classifier trained with the splice sites extrapolated by the GA. The known splice sites are tested with this classifier to measure the accuracy of the model. The main goal is to workaround the limitations of the exact match based scoring logic discussed in the section-\ref{score-enhanced}. The classifier based scoring should outperform the exact match based scores.
 	
 	\subfile{CS298-draft1-classification}
 
 	\section{CONCLUSION}
-	As seen in the scoring summary tables, the PWM score based fitness of the n-mer population extrapolated by GA increases with the generation count. PWM score is known to be a good at modeling splice sites in nucleotide sequences \cite{pwm-2}. This indicates that the GA is successfully traversing the search space in a controlled fashion. \par
-	Across all the generations of the splice sites, the populations with best mean scores are listed in the score summary tables \ref{score5} and \ref{score3}. The high preservation scores(pscore) indicate high similarity between the extrapolated set and the corresponding training splice site data. The high confusion scores (cscore) indicate high dissimilarity between the extrapolated set and the corresponding competing (section-\ref{sec:competing}) splice site data. \par
-	The coverage scores for 3' splice sites are expected to be worse than 5' splice sites as explained in section-\ref{score-enhanced}. This can be improved by using local alignment-based logic for computing the scores. \par
-	Some of the topics not covered here are schema theorem and analysis, representations and encoding techniques, and alternative random number generators. Schema analysis gives a more detailed understanding of the behavior of the GA. It is also used to compute a suitable crossover probability. It has been shown that variations in the random number generator implementation have an impact on the performance of the GA. 
+	The results obtained in the section-\ref{sec-results} show that the mean fitness increases with generation count. This indicates that the the GA is successfully traversing the search space in a controlled fashion. Our time complexity analysis in section-\ref{sec-analysis} shows that the GA converges much faster than an exhaustive search space traversal. This becomes more evident in the analysis for 3' splice sites, which are longer n-mer splice site sequences. \par 
+	The high similarity scores(pscore) in the summary tables \ref{score3} and \ref{score5} indicate a high similarity between the extrapolated set and the corresponding training splice site data. Similarly, the high dissimilarity scores(cscore) indicate a high dissimilarity between the extrapolated set and the corresponding competing (section-\ref{sec:competing}) splice site data. These observations provide us the evidence required to confirm the hypothesis that the competing splice sites are intrinsically dissimilar.\par
+	The scores for the 3' splice sites are worse than the 5' splice sites. This is explained in section-\ref{score-enhanced}. The scores for the 3' splice sites can be improved by using local alignment-based algorithms for computing the scores because they are longer sequences than 5' splice sites. \par
+	We also observed that the roulette wheel selection, tournament selection, and one point crossover give us most of the best scores across all combinations of GA parameters. \par
+	Another interesting fact is that we get high scores in GA when we use PWM scores as fitness for the splice site datasets. The Position Weight Matrix is known to be a good probabilistic model for splice sites in nucleotide sequences \cite{pwm-2}. \par
+	Some of the topics not covered here are schema theorem and analysis, representations and encoding techniques, and alternative random number generators. Schema analysis gives a more detailed understanding of the behavior of the GA. It is also used to compute a suitable crossover probability. Also, it has been shown that variations in the random number generator implementation have an impact on the performance of the GA. 
 	
 	%\section{APPENDIX}
 	%\subfile{CS298-draft1-results-css-cscore-3p}
