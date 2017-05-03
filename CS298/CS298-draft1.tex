@@ -236,7 +236,7 @@
 	
 	\subsection{CRYPTIC 5' SPLICE SITE}
 	
-	The cryptic 5’ splice sites are collected from the DBASS5 database portal \cite{dbass-0, dbass3} by crawling all available splice details page. The splice site details page contains the nucleotide sequence with the context of the mutation that alters the splicing location. The mutation is indicated in the sequence with a greater than symbol. \par
+	The cryptic 5’ splice sites are collected from the DBASS5 database portal \cite{dbass-0, dbass3} by crawling all available splice site details page. The splice site details page contains the nucleotide sequence with the context of the mutation that alters the splicing location. The mutation is indicated in the sequence with a greater than symbol. \par
 	For example: (G>A) means G is replaced by A \newline
 	The cryptic splice sites are denoted by the slash symbol. \newline
 	Consider the following nucleotide sequence extracted from the first record.\newline
@@ -261,7 +261,7 @@
 	Total cryptic 5’ splice site 9-mers extracted : \textbf{539}
 
 	\subsection{3' SPLICE SITE}
-	The 3’ splice sites are extracted based on the location of the invariant AG dinucleotide and its preceeding Yn consensus were Y is a Pyridine. The authentic splice sites are extracted from the Homo Sapiens Splice Sites database (HS3D) \cite{hs3d-1,hs3d-2}. The cryptic splice sites and neighboring splice sites are extracted from the DBASS3 database \cite{dbass-0,dbass-1,dbass-2}.
+	The 3’ splice sites are extracted based on the location of the invariant AG dinucleotide and its preceeding $Y_n$ consensus where Y is a Pyridine. The authentic splice sites are extracted from the Homo Sapiens Splice Sites database (HS3D) \cite{hs3d-1,hs3d-2}. The cryptic splice sites and neighboring splice sites are extracted from the DBASS3 database \cite{dbass-0,dbass-1,dbass-2}.
    	\begin{figure}[H]
    		\includegraphics[width=\textwidth]{"threeprime"}
    		\caption{3' Splice Site}
@@ -319,7 +319,7 @@
 
 	Total authentic 3’ splice site 13-mers extracted : \textbf{2880}
 	\subsection{CRYPTIC 3' SPLICE SITE}
-	The cryptic 3’ splice sites are collected from the DBASS3 database portal \cite{dbass-0,dbass-1,dbass-2} by crawling all available splice details page. The fields on the DBASS3 splice site details pages are similar to the ones on the DBASS5 pages. \par 
+	The cryptic 3’ splice sites are collected from the DBASS3 database portal \cite{dbass-0,dbass-1,dbass-2} by crawling all available splice site details page. The fields on the DBASS3 splice site details pages are similar to the ones on the DBASS5 pages. \par 
 	The desired 13-mer comprises of : 
 	\begin{itemize}
 		\item 10 nucleotides before the ag dinucleotide from the Intron
@@ -362,7 +362,7 @@
 	\item Evolutionary Strategies
 	\end{itemize}
 	
-	Some of the early significant contributors to EA:
+	Some of the early significant contributors to EA \cite{handbook}:
 	\begin{itemize}
 	\item Friedberg (1958)
 	\item Fraser (1957)
@@ -432,7 +432,7 @@
 	\subsection{SELECTION STRATEGIES} 
 	Selection strategy is responsible for selecting individuals from a population for mating.
 	\subsubsection{ROULETTE WHEEL}
-	Total the fitness value of all individuals in the parent population; Calculate probability of each individual as the ratio of its fitness to total fitness. This strategy may lead to weak selection pressure. \par
+	The total fitness value of all individuals in the parent population is computed. The probability of each individual is calculated as the ratio of its fitness to the total fitness. However, this strategy may lead to weak selection pressure. \par
 	Selection pressure is governed by the differences in selection probabilities of individuals. If the differences are too small then the selection pressure is low.
 	The workaround for low selection pressure is to scale the fitness probabilities with respect to the worst fitness. However, this leads to excessive selection pressure. The best individual may take over the entire population within a few iterations \cite{handbook}. \par
 	
@@ -494,7 +494,7 @@
 
 	\subsection{CROSSOVER}
 	Crossover combines features from two highly fit individuals. The individuals maybe highly fit due to different reasons. However, we do not know which features account for the high fitness. Hence, the features are combined at random \cite{goldberg}.  \par
-	Types of crossover:
+	Types of crossover \cite{goldberg}:
 	\begin{itemize}
 	\item One-point crossover
 	\item Two-point crossover
@@ -551,8 +551,8 @@
 		\centering
 	\end{figure}
 	
-	Figure-\ref{fig:pwm} shows the different phases involved in computation of a PWM from nucleotide sequences.
-	\textbf{Algorithm: PWM}
+	Figure-\ref{fig:pwm} shows the different phases involved in computation of a PWM from nucleotide sequences. \par
+	\textbf{Algorithm: PWM} \\
 	Given Inputs:
 	\begin{itemize}
 	\item Nucleotide sequences
@@ -630,13 +630,12 @@
 	We compare the $EA_5$, $EC_5$, and $EN_5$ subsets based on their degree of similarity to the subsets $A_5$, $C_5$, and $N_5$. For the sake of simplicity, we compute degree of similarity using exact match ratio (EMR). \par
 	Given two subsets S1 and S2, EMR can be defined as follows:
 	\begin{equation}
-		EMR(S1, S2) = |S2 - S1| / |S2|
+		EMR(S1, S2) = |S2 \cap S1| / |S2|
 		\label{eq-emr}
 	\end{equation}
 	
 	For example, consider the following comparisons:\\
-	$ EMR(EA_5, A_5) = |A_5 - EA_5| / |A_5| $ : Percentage of chromosomes in $A_5$ that are covered by $EA_5$ \\
-	This can also be written as : $ EMR(EA_5, A_5) = |A_5 \cap EA_5| / |A_5| $ \\
+	$ EMR(EA_5, A_5) = |A_5 \cap EA_5| / |A_5| $ : Percentage of chromosomes in $A_5$ that are covered by $EA_5$ \\
 	Similarly, we can define $ EMR(EA_5, C_5) = |C_5 \cap EA_5| / |C_5| $ \\
 	In simpler terms, EMP(S1, S2) = ratio of individual n-mer strings in S2 covered by S1
 
@@ -673,7 +672,7 @@
 	If there exists a GA, that can give an EP and an EQ that maximize the scores PSCORE(P), PSCORE(Q), CSCORE(P), and CSCORE(Q), then we can conclude that P and Q are intrinsically different.
 	
 	\subsubsection{ENHANCED SCORES} \label{score-enhanced}
-	The PSCORE and CSCORE measures are based on EMR, which looks for exact match across the two participating datasets. The scores of the 3' splice sites are expected to be worse than the 5' splice sites because the 3' splice sites are longer and thus less probable to exactly match the known splice sites. Hence, the EMR based scores are too rigid for longer sequences. \par
+	The PSCORE and CSCORE measures are based on EMR, which looks for exact matches across the two participating datasets. The scores of the 3' splice sites are expected to be worse than the 5' splice sites because the 3' splice sites are longer and thus less probable to exactly match the known splice sites. Hence, the EMR based scores are too rigid for longer sequences. \par
 	The coverage logic can be enhanced by considering local alignment scores instead of exact match. This should give us better coverage scores for 3' splice sites.
 		
 	\subsubsection{STEPS} \label{sec:steps}
@@ -983,12 +982,12 @@
 			\item generation count: \{10, 100, 1000\} - number of generations
 			\item generation size: \{10, 20\} - size of each generation
 			\item selection strategy: \{roulette wheel, ranked, tournament\}
-			\item crossover operator: \{one point, two point, uniform, order based, partially matched, cycle\}
+			\item crossover operator: \{one point, two point, uniform, uniform order based\}
 		\end{itemize}
  
 	\subsection{SCORING TABLES}
 	The scoring tables are computed by executing each combination of the GA parameters 100 times.\par
-	For the set of parameter values defined above, there are 3 X 2 X 3 X 6 = 108 combinations. Each combination is executed 100 times in order to account for the stochastic nature of the results of each execution. \par
+	For the set of parameter values defined above, there are 3 X 2 X 3 X 4 = 72 parameter combinations. Each combination is executed 100 times in order to account for the stochastic nature of the results of each execution. \par
 	Format of the scoring table:
 	\begin{itemize}
 		\item title of the table indicates the selection strategy and the crossover operator
