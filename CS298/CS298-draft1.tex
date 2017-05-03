@@ -153,7 +153,7 @@
     \doublespacing
 	\section{\large MOTIVATION}
     The eukaryotic genome consists of many genes. Transcription and translation are some of the important processes in the gene expression pathways. Transcription involves generation of messenger RNA (mRNA) from pre-messenger RNA (pre-mRNA). Both mRNA and pre-mRNA are sequences of nucleotides. The pre-mRNA is divided into nucleotide regions called Introns and Exons. An Exon-Intron boundary is called a 5’ splice site and an Intron-Exon boundary is called a 3’ splice spite. As per recent knowledge, the Introns are discarded and the Exons are stitched together to form the mRNA. \par
-    The mRNA is the exact coding sequence(CDS) that is translated into proteins. Proteins comprise of sequences made from various combinations of twenty possible amino acids. Each of the twenty amino acids can be mapped to multiple nucleotide triplets (codons) from the mRNA. One of the first publications of these mappings was by Crick in The Origin of the Genetic Code \cite{crick1}. The exact sequence of amino acids dictates the structural properties of the protein molecule. The structure and composition of a protein molecule influence the physical and chemical properties exhibited by the protein. These properties have been documented in the Wikipedia page on Amino Acids \cite{wiki-aminoacids}. \par
+    The mRNA is the exact coding sequence (CDS) that is translated into proteins. Proteins comprise of sequences made from various combinations of twenty possible amino acids. Each of the twenty amino acids can be mapped to multiple nucleotide triplets (codons) from the mRNA. One of the first publications of these mappings was by Crick in The Origin of the Genetic Code \cite{crick1}. The exact sequence of amino acids dictates the structural properties of the protein molecule. The structure and composition of a protein molecule influence the physical and chemical properties exhibited by the protein. These properties have been documented in the Wikipedia page on Amino Acids \cite{wiki-aminoacids}. \par
 	\begin{figure}[h]
 		\includegraphics[width=\textwidth]{synthesis}
 		\caption{Protein synthesis}
@@ -354,7 +354,7 @@
 	
 	\section{ALGORITHM SELECTION}
 	For the 5’ and 3' splice sites, we can model the problem statement as a search problem. The spliceosome binds to a specific subset of the entire 9-mer search space. The cardinality of each position in the 9-mer is four (equivalent to A, C, G, and T). In 5' splice sites, the positions 4 and 5 are always occupied by the GT di-nucleotide. Hence, the size of the 5' splice site search space is $ 4^{7} = 16384 $. This search space comprises of the authentic, cryptic, and neighboring splice sites. An important goal is to study the statistical properties of the known samples from these three categories of splice sites and prove that they are inherently different. \par
-	Evolutionary Algorithms(EAs) are applicable to problems that have no known classical optimization methods \cite{handbook}. If a traditional method is applicable to solve a problem, then EA should not be used since traditional methods are more efficient in such a case. Since we do not understand the choices of a spliceosome completely, EAs are suitable for this problem. The section-\ref{sec:modelling} describes a Genetic Algorithm based approach.\par
+	Evolutionary Algorithms (EAs) are applicable to problems that have no known classical optimization methods \cite{handbook}. If a traditional method is applicable to solve a problem, then EA should not be used since traditional methods are more efficient in such a case. Since we do not understand the choices of a spliceosome completely, EAs are suitable for this problem. The section-\ref{sec:modelling} describes a Genetic Algorithm based approach.\par
 	Three primary forms of EA:
 	\begin{itemize}
 	\item Evolutionary Programming
@@ -364,26 +364,26 @@
 	
 	Some of the early significant contributors to EA:
 	\begin{itemize}
-	\item Friedberg(1958)
-	\item Fraser(1957)
-	\item Bremermann(1962)
-	\item Box and Draper(1969): Evolutionary Operation
-	\item Spendley(1962)
-	\item Fogel(1966): Evolutionary Programming
-	\item Holland(1967): Genetic Algorithms
-	\item Rechenberg(1965): Evolutionary Strategies
+	\item Friedberg (1958)
+	\item Fraser (1957)
+	\item Bremermann (1962)
+	\item Box and Draper (1969): Evolutionary Operation
+	\item Spendley (1962)
+	\item Fogel (1966): Evolutionary Programming
+	\item Holland (1967): Genetic Algorithms
+	\item Rechenberg (1965): Evolutionary Strategies
 	\end{itemize}
 	
 	Some of the initial conferences on EA:
 	\begin{itemize}
-	\item Schwefel and Manner(1991): Int'l workshop
-	\item Belew and Booker(1991): ICGA'91
-	\item Fogel and Atmar(1992): EP'92
-	\item Manner and Manderick(1992): PPSN'92
+	\item Schwefel and Manner (1991): Int'l workshop
+	\item Belew and Booker (1991): ICGA'91
+	\item Fogel and Atmar (1992): EP'92
+	\item Manner and Manderick (1992): PPSN'92
 	\end{itemize}
 	
 	\subsection{BACKGROUND ON GENETIC ALGORITHMS}
-	Genetic Algorithms were first proposed and analyzed by John Holland(1975). Genetic Algorithms are a type of EA that deal with search and optimization based on a fitness function. It follows the philosophy of survival of the fittest. It uses the mechanisms of natural biological selection and genetics. \par
+	Genetic Algorithms were first proposed and analyzed by John Holland (1975). Genetic Algorithms are a type of EA that deal with search and optimization based on a fitness function. It follows the philosophy of survival of the fittest. It uses the mechanisms of natural biological selection and genetics. \par
 	Genetic algorithms follow a generic domain agnostic framework. Hence, it has the advantage of being applicable to many problems. Some of the features that initially separated GA from other evolutionary approaches are:
 	\begin{itemize}	
 	\item Bitstring representation
@@ -506,7 +506,7 @@
 	\item Cycle crossover (CX)
 	\end{itemize}
 
-	For more details on each type of crossover, refer to how they are used with 9-mer data in section [modeling]
+	For more details on each type of crossover, refer to how they are used with 9-mer data in section-\ref{sec:crossover}.
 
 	\begin{figure}[H]
 		\includegraphics[width=\textwidth,height=\textheight]{"GA-block2-algo"}
@@ -551,7 +551,7 @@
 		\centering
 	\end{figure}
 	
-	Diagram-\ref{fig:pwm} shows the different phases involved in computation of a PWM from nucleotide sequences.
+	Figure-\ref{fig:pwm} shows the different phases involved in computation of a PWM from nucleotide sequences.
 	\textbf{Algorithm: PWM}
 	Given Inputs:
 	\begin{itemize}
@@ -591,7 +591,7 @@
 		\item $C_3$: All known cryptic 3’ splice sites		
 	\end{itemize}
 			
-	For the sake of simplicity, let us consider only the 5' splice site datasets: $A_5, C_5, and N_5$.
+	For the sake of simplicity, let us consider only the 5' splice site datasets: $A_5$, $C_5$, and $N_5$.
 	Let $S_5$ be the entire search space of 5' splice sites.
 	$$|S_5| = 4^7 = 16384$$
 	Without making any assumptions about the relation that exists between each dataset and $S_5$, we can state: 
@@ -651,7 +651,7 @@
 
 	\subsubsection{COMPARISON SCORES} \label{scores}
 	Using the definition of EMR from equation-\ref{eq-emr}, we can define the score metrics that quantify the degree of similarity for comparing the datasets.\\
-	Let us assume two datasets P and Q and their extrapolated sets EP and EQ (using GA with PWM). If P and Q are competing datasets(defined in section-\ref{sec:competing}, we can define the following comparison scores:
+	Let us assume two datasets P and Q and their extrapolated sets EP and EQ (using GA with PWM). If P and Q are competing datasets (defined in section-\ref{sec:competing}, we can define the following comparison scores:
 	\begin{itemize}
 		\item PRESERVATION SCORE (PSCORE)
 		\begin{equation}
@@ -992,7 +992,7 @@
 	Format of the scoring table:
 	\begin{itemize}
 		\item title of the table indicates the selection strategy and the crossover operator
-		\item rows 1 - 3 indicate the dataset(AUTH, CSS, or NEIGHBOR), the score metric(PSCORE, CSCORE or FITNESS), and the GA paramters m(generation size) and gc(generation count)
+		\item rows 1 - 3 indicate the dataset (AUTH, CSS, or NEIGHBOR), the score metric (PSCORE, CSCORE or FITNESS), and the GA paramters m (generation size) and gc (generation count)
 		\item for a single set of parameter values for m and gc, there is a composite column comprising of two subcolumns f($\bar{x}$) and N. \\
 		f($\bar{x}$) = unique value of the score metric \\
 		N = frequency of the f($\bar{x}$) value across 100 execution
@@ -1015,7 +1015,7 @@
 	
 	\subsubsection{POINT OF INTEREST: CSCORE FOR CRYPTIC SPLICE SITES}
 	
-	In this section, we aggregate the cscores for cryptic splice sites across all combinations of the GA parameters because we want to quantify the intrinsic difference or similarity between authentic and cryptic splice sites. Please note that by the definition of cscore in equation-\ref{eq-cscore}, since cryptic and authentic splice sites are competing datasets, it measures the dissimilarity between the datasets based on exact match ratio(equation-\ref{eq-emr}). A high cscore indicates high dissimilarity.
+	In this section, we aggregate the cscores for cryptic splice sites across all combinations of the GA parameters because we want to quantify the intrinsic difference or similarity between authentic and cryptic splice sites. Please note that by the definition of cscore in equation-\ref{eq-cscore}, since cryptic and authentic splice sites are competing datasets, it measures the dissimilarity between the datasets based on exact match ratio (equation-\ref{eq-emr}). A high cscore indicates high dissimilarity.
 	
 	\subfile{CS298-draft1-summary-css-cscores}
 	
@@ -1027,7 +1027,7 @@
 	\subsection{5' SPLICE SITE}
 	The 5' splice sites are represented by a 9-mer with a fixed GT di-nucleotide in positions 4 and 5. Each position in the 9-mer has a cardinality of four corresponding to the four nucleotides - Adenine, Cytosine, Guanine, and Thymine. \\
 	Search space size = $4^{9-2}$ = $4^7$ = \textbf{16384} \\
-	The PWM-based genetic algorithm described in section\ref{sec:modelling} extrapolates a subset of this search space. From the results described in Table-\ref{score5} we can see that the algorithm converges decently close to the known splice site data in 1000 generations\\
+	The PWM-based genetic algorithm described in section-\ref{sec:modelling} extrapolates a subset of this search space. From the results described in table-\ref{score5} we can see that the algorithm converges decently close to the known splice site data in 1000 generations\\
 	Given, \\
 	Generation Count = 100 \\
 	Generation size = 20 \\
@@ -1054,7 +1054,7 @@
 
 	\section{CONCLUSION}
 	The results obtained in the section-\ref{sec-results} show that the mean fitness increases with generation count. This indicates that the the GA is successfully traversing the search space in a controlled fashion. Our time complexity analysis in section-\ref{sec-analysis} shows that the GA converges much faster than an exhaustive search space traversal. This becomes more evident in the analysis for 3' splice sites, which are longer n-mer splice site sequences. \par 
-	The high similarity scores(pscore) in the summary tables \ref{score3} and \ref{score5} indicate a high similarity between the extrapolated set and the corresponding training splice site data. Similarly, the high dissimilarity scores(cscore) indicate a high dissimilarity between the extrapolated set and the corresponding competing (section-\ref{sec:competing}) splice site data. These observations provide us the evidence required to confirm the hypothesis that the competing splice sites are intrinsically dissimilar.\par
+	The high similarity scores (pscore) in the summary tables \ref{score3} and \ref{score5} indicate a high similarity between the extrapolated set and the corresponding training splice site data. Similarly, the high dissimilarity scores (cscore) indicate a high dissimilarity between the extrapolated set and the corresponding competing (section-\ref{sec:competing}) splice site data. These observations provide us the evidence required to confirm the hypothesis that the competing splice sites are intrinsically dissimilar.\par
 	The scores for the 3' splice sites are worse than the 5' splice sites. This is explained in section-\ref{score-enhanced}. The scores for the 3' splice sites can be improved by using local alignment-based algorithms for computing the scores because they are longer sequences than 5' splice sites. \par
 	We also observed that the roulette wheel selection, tournament selection, and one point crossover give us most of the best scores across all combinations of GA parameters. \par
 	Another interesting fact is that we get high scores in GA when we use PWM scores as fitness for the splice site datasets. The Position Weight Matrix is known to be a good probabilistic model for splice sites in nucleotide sequences \cite{pwm-2}. \par
