@@ -116,38 +116,65 @@
 	%title and author details
 	
 	\title{
-	    {APPLICATION OF COMPUTATIONAL METHODS TO STUDY THE SELECTION OF AUTHENTIC AND CRYPTIC SPLICE SITES}\\~\\~\\
-	    {\large A Project Report}\\
+	    {Application of Computational Methods to Study the Selection of Authentic and Cryptic Splice Sites}\\~\\~\\
+	    {\large A Project}\\
 	    {\large Presented to}\\
 	    {\large Dr. Sami Khuri}\\
 	    {\large Department of Computer Science}\\
 	    {\large San Jose State University}\\~\\~\\
 	    {\large In Partial Fulfillment}\\
-	    {\large of the Requirements for the Class}\\
-	    {\large CS 298}\\~\\~\\
+	    {\large of the Requirements for the Degree}\\
+	    {\large Master of Science}\\~\\~\\
     }
     
     \author{By\\Tapomay Dey}
-    \date{April 2017}
+    \date{May 2017}
 	\maketitle
-	
+
 	\thispagestyle{empty}
-	
 	\newpage
 	\doublespacing
 	\noindent
-	\large ABSTRACT\\
+	
+	\begin{center}
+		\large ABSTRACT\\
+	\end{center}
 	Proteins are considered as building blocks in the body of eukaryotes and the process of synthesizing proteins from the DNA is crucial for good health of an organism \cite{khuri3}. However, some mutations in the DNA may disrupt the selection of 5' or 3' splice sites by a splicesome. An important research question is to study whether the disruptions have a stochastic relation to the position of nucleotides in the vicinity of the known authentic and cryptic splice sites. This can be achieved by proving that the authentic and cryptic splice sites are intrinsically different. However, the behavior of the spliceosome is not accurately known. Hence, it is a logical step to model the behavior of the spliceosome using an algorithm that is suitable for modeling unknown functions. \par
 	Genetic Algorithms have played an important role in serving as a sophisticated algorithmic tool for heuristically optimizing NP-Hard search problems \cite{handbook}. An exhaustive search on the splice site data search space in order to determine the spliceosome function is an NP-Hard problem. Thus, the spliceosome function is modelled as a search problem and a Genetic Algorithms based framework is created to prove the hypothesis. \par
 	Also, a Random Forest based classifier is proposed to be used as the scoring function. Its purpose is to reduce the rigidity of the comparison mechanism used to compare authentic and cryptic splice sites.
-    
+    	
+    \thispagestyle{empty}
+    \newpage
+	\begin{center}
+		\large ACKNOWLEDGEMENTS\\
+	\end{center}
+	I would like to thank my advisor, Dr. Sami Khuri, for teaching me many advanced topics in Computer Science and BioInformatics. His consistency in providing timely guidance and unique style of mentoring played a key role in the success of this project.\par
+	I would like to thank Dr. Philip Heller and Dr. Thomas Austin for their invaluable inputs and guidance. \par
+	I would also like to thank Dr. Sharmin Khan, Dr. Mark Stamp, Dr. Jon Pearce, and all my previous mentors.
+	I am also grateful to my family and friends for supporting this venture of mine.
+
     \thispagestyle{empty}
 	\newpage
 	
 	\tableofcontents
+	
 	\thispagestyle{empty}
 	\newpage
 	
+	%tables
+	\listoftables
+	
+	\thispagestyle{empty}
+	\newpage
+	
+	%figures
+	\listoffigures
+	
+	\thispagestyle{empty}
+	\newpage
+	%equations ?? nojoy
+	
+		
 	\clearpage
     \pagenumbering{arabic}
     \doublespacing
@@ -326,7 +353,7 @@
 		\item the ag dinucleotide at the splice site marker from the Intron
 		\item one nucleotide after the splice site marker from the Exon
 	\end{itemize}
-	Consider the following nucleotide sequence extracted from a record at URL: http://www.dbass.org.uk/DBASS3/viewsplicesite.aspx?id=52 (last retrieved: 04/23/2017)\par
+	Consider the following nucleotide sequence extracted from a record at \\ URL: http://www.dbass.org.uk/DBASS3/viewsplicesite.aspx?id=52 (last retrieved: 04/23/2017)\par
 	\vspace{5mm}	
 	\begin{tabular}{ | p{\linewidth} |}
 		\hline
@@ -1062,6 +1089,9 @@
 	%\section{APPENDIX}
 	%\subfile{CS298-draft1-results-css-cscore-3p}
 	
+    \thispagestyle{empty}
+    \newpage
+	 
 	\begin{thebibliography}{9}
 		
 		\bibitem{crick1}
